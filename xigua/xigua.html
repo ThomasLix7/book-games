@@ -237,6 +237,29 @@ body.ingame{overflow:hidden}
 .rcard-x{color:var(--ink-2);font-size:12.5px;line-height:1.5}
 @media (max-width:600px){.bookcard{padding:8px 12px 2px}.bc-body{font-size:16.5px;line-height:1.75;max-height:36dvh}}
 @media (prefers-color-scheme:dark){.bookcard{background:#211e18;border-color:#4a4233;border-left-color:#a88a4f;box-shadow:none}.bc-body{color:#ece6d8}.bc-head,.rcard-q cite{color:#b9a477}.rcard-q{color:#ece6d8}}
+
+/* Original-text mode layout: game on the left, the level's original text on the right (wide); narrow screens stack them */
+.play{flex:1;min-height:0;display:flex}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.stage{display:flex;flex-direction:column}
+.stage>.slot-row:first-child{margin-top:auto}
+.stage>.slot-row:nth-last-child(2){margin-bottom:auto}
+.side{display:none}
+@media (min-width:900px){
+  .game.orig{max-width:1440px}
+  .game.orig .side{display:flex;flex-direction:column;gap:10px;width:clamp(340px,34%,480px);flex:none;overflow-y:auto;padding:0 12px 12px 0;scroll-padding-top:8px}
+  .game.orig .dock .bookcard{display:none}
+  .side .bookcard{opacity:.62;transition:opacity .3s}
+  .side .bookcard.now{opacity:1;border-left-color:#b8862b;box-shadow:0 2px 0 #efe5cf,0 0 0 3px rgba(201,169,106,.25)}
+  .side .bc-body{max-height:none;overflow:visible}
+  .side-empty{margin:24px 8px;color:var(--ink-2);font-size:14px;text-align:center}
+}
+@media (max-width:899px){
+  .main.carded .stage{flex:0 1 auto}
+  .main.carded .dock{flex:1 1 auto;min-height:0}
+  .main.carded .dock .bookcard{flex:1 1 auto;min-height:120px;display:flex;flex-direction:column}
+  .main.carded .dock .bc-body{max-height:none;flex:1;min-height:0}
+}
 `;
 
   // src/widgets/common.ts
@@ -2236,6 +2259,8 @@ body.ingame{overflow:hidden}
       __publicField(this, "confidence");
       __publicField(this, "writeReveal", "");
       __publicField(this, "stageEl", null);
+      __publicField(this, "mainEl", null);
+      __publicField(this, "sideEl", null);
       __publicField(this, "stageBeat", "");
       __publicField(this, "stageWidth", 0);
       __publicField(this, "dock", null);
@@ -2482,10 +2507,12 @@ body.ingame{overflow:hidden}
       const chapter = this.pack.chapters.find((c) => c.levels.some((l) => l.id === id));
       this.stageEl = h("div", { class: "stage" });
       this.dock = h("div", { class: "dock" });
+      this.mainEl = h("div", { class: "main" }, this.stageEl, this.dock);
+      this.sideEl = this.pack.original ? h("aside", { class: "side", "aria-label": "\u672C\u5173\u539F\u6587" }) : null;
       this.hudStars = L.exam ? h("span", { class: "hud-stars", "aria-label": "\u661F\u7EA7" }) : null;
       this.root.replaceChildren(h(
         "div",
-        { class: "game" },
+        { class: `game ${this.pack.original ? "orig" : ""}` },
         h(
           "div",
           { class: "hud" },
@@ -2496,8 +2523,7 @@ body.ingame{overflow:hidden}
           ...this.stats()
         ),
         h("div", { class: "aim-line" }, "\u672C\u5173\uFF1A", L.aim),
-        this.stageEl,
-        this.dock
+        h("div", { class: "play" }, this.mainEl, this.sideEl)
       ));
       const start = resume ? Math.min(p.pos[id], L.beats.length - 1) : 0;
       const begin = () => this.go(start);
@@ -2726,7 +2752,10 @@ body.ingame{overflow:hidden}
       });
       const hadFocus = document.activeElement === document.body || dock.contains(document.activeElement);
       dock.replaceChildren(...card ? [card] : [], dlg);
+      this.mainEl?.classList.toggle("carded", Boolean(card));
       if (card) fadeIfMore(card.querySelector(".bc-body"));
+      this.renderSide();
+      this.drawPointer();
       if (hadFocus) {
         const target = dlg.querySelector(".write-in, .choice:not(:disabled), [data-continue]");
         target?.focus({ preventScroll: true });
@@ -2974,28 +3003,49 @@ body.ingame{overflow:hidden}
       const html = id === pid ? p.html || (p.sentences ?? []).map((x) => x.html).join("") : p.sentences?.find((x) => x.id === id)?.html;
       return html === void 0 ? null : { html, page: p.pages[0], kind: p.kind };
     }
-    /** The beat's original text as a page card: the book's sentences in book style, page number on top. `blank` spans stay hidden unless the beat is done and lists the sentence in `book_done`. */
-    bookCard(b, done) {
+    /** The original text a beat shows: each unit's HTML, page, and whether its blanks are open. `blank` spans stay hidden unless the beat is done and lists the sentence in `book_done`. */
+    bookParts(b, done) {
       const shown = done ? new Set(b.book_done ?? []) : /* @__PURE__ */ new Set();
-      const ids = [.../* @__PURE__ */ new Set([...b.book ?? [], ...shown])];
-      const parts = [];
-      for (const id of ids) {
+      const out = [];
+      for (const id of /* @__PURE__ */ new Set([...b.book ?? [], ...shown])) {
         const u = this.unit(id);
-        if (u) parts.push({ u, open: shown.has(id) || !(b.blank ?? []).some((sp) => u.html.includes(escapeHtml(sp))) });
-      }
-      if (!parts.length) return null;
-      const html = parts.map(({ u, open }) => {
+        if (!u) continue;
+        const open = shown.has(id) || !(b.blank ?? []).some((sp) => u.html.includes(escapeHtml(sp)));
         let x = u.html;
         if (!open) for (const sp of b.blank ?? []) x = x.replace(escapeHtml(sp), '<span class="blank" aria-label="\u7A7A\u767D">\uFF3F\uFF3F\uFF3F</span>');
-        return `<span class="bl bl-${u.kind}">${x}</span>`;
-      }).join("");
-      const pages = [...new Set(parts.map((x) => x.u.page))];
+        out.push({ id, html: `<span class="bl bl-${u.kind}">${x}</span>`, page: u.page, open });
+      }
+      return out;
+    }
+    pageCard(parts, cls = "") {
+      const pages = [...new Set(parts.map((x) => x.page))];
       return h(
         "figure",
-        { class: "bookcard", "aria-label": "\u539F\u4E66\u539F\u6587" },
+        { class: `bookcard ${cls}`, "aria-label": "\u539F\u4E66\u539F\u6587" },
         h("figcaption", { class: "bc-head" }, h("span", { class: "bc-tag" }, "\u539F\u6587"), h("span", { class: "bc-page" }, `\u7B2C ${pages.join("\u3001")} \u9875`)),
-        h("div", { class: "bc-body book", lang: "zh-CN", html })
+        h("div", { class: "bc-body book", lang: "zh-CN", html: parts.map((x) => x.html).join("") })
       );
+    }
+    /** This beat's original text as one page card (narrow screens show it above the guide's bubble). */
+    bookCard(b, done) {
+      const parts = this.bookParts(b, done);
+      return parts.length ? this.pageCard(parts) : null;
+    }
+    /** Wide screens: every original text the level has shown so far, newest last, so the reader can look back. */
+    renderSide() {
+      const side = this.sideEl, run = this.run, L = this.level;
+      if (!side || !run || !L) return;
+      const seen = /* @__PURE__ */ new Set();
+      const cards = [];
+      for (let i = 0; i <= run.index; i++) {
+        const now = i === run.index;
+        const parts = this.bookParts(L.beats[i], !now || run.done).filter((x) => !seen.has(x.id) && (x.open || now));
+        for (const x of parts) if (x.open) seen.add(x.id);
+        if (parts.length) cards.push(this.pageCard(parts, now ? "now" : ""));
+      }
+      side.replaceChildren(...cards.length ? cards : [h("p", { class: "side-empty" }, "\u8FD9\u4E00\u5173\u8BFB\u5230\u7684\u539F\u6587\u4F1A\u51FA\u73B0\u5728\u8FD9\u91CC\u3002")]);
+      const last = side.querySelector(".bookcard.now");
+      if (last) side.scrollTo({ top: last.offsetTop - 8, behavior: reducedMotion() ? "auto" : "smooth" });
     }
     openAlbum() {
       const p = this.progress;
