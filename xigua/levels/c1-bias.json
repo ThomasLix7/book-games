@@ -3,17 +3,17 @@
  "sec": "1.4",
  "source": [
   "1.49#1.4 归纳偏好",
-  "1.73#所以,NFL 定"
+  "1.59#事实上,归纳偏好"
  ],
  "title": "该听哪一条",
  "aim": "版本空间里不止一条规律时，学习算法该听哪一条？",
  "key": [
   "1.51.5",
   "1.54.1",
+  "1.55.5",
   "1.57.3",
-  "1.59.2",
-  "1.71.1",
-  "1.73.1"
+  "1.58.1",
+  "1.59.2"
  ],
  "scenes": {
   "rules": {
@@ -128,106 +128,49 @@
       "data": "train_pts",
       "style": "points",
       "color": "ink"
-     },
-     {
-      "id": "world1",
-      "data": "world1",
-      "style": "hollow",
-      "color": "amber",
-      "hidden": true
-     },
-     {
-      "id": "world2",
-      "data": "world2",
-      "style": "hollow",
-      "color": "amber",
-      "hidden": true
      }
     ]
    }
   },
-  "w1": {
-   "widget": "action_button",
-   "slot": "bottom",
+  "noisy": {
+   "widget": "dial_builder",
+   "slot": "full",
    "props": {
-    "label": "揭晓世界 1",
-    "effects": [
+    "attrs": [
      {
-      "op": "set",
-      "path": "curves.revealed",
-      "value": [
-       "world1"
+      "name": "色泽",
+      "values": [
+       "青绿",
+       "乌黑",
+       "浅白"
       ]
      },
      {
-      "op": "compute",
-      "fn": "mean_abs_error",
-      "args": [
-       {
-        "data": "curve_a"
-       },
-       {
-        "data": "world1"
-       }
-      ],
-      "into": "vars.a1"
-     },
-     {
-      "op": "compute",
-      "fn": "mean_abs_error",
-      "args": [
-       {
-        "data": "curve_b"
-       },
-       {
-        "data": "world1"
-       }
-      ],
-      "into": "vars.b1"
-     }
-    ]
-   }
-  },
-  "w2": {
-   "widget": "action_button",
-   "slot": "bottom",
-   "props": {
-    "label": "揭晓世界 2",
-    "effects": [
-     {
-      "op": "set",
-      "path": "curves.revealed",
-      "value": [
-       "world2"
+      "name": "根蒂",
+      "values": [
+       "蜷缩",
+       "稍蜷",
+       "硬挺"
       ]
      },
      {
-      "op": "compute",
-      "fn": "mean_abs_error",
-      "args": [
-       {
-        "data": "curve_a"
-       },
-       {
-        "data": "world2"
-       }
-      ],
-      "into": "vars.a2"
-     },
-     {
-      "op": "compute",
-      "fn": "mean_abs_error",
-      "args": [
-       {
-        "data": "curve_b"
-       },
-       {
-        "data": "world2"
-       }
-      ],
-      "into": "vars.b2"
+      "name": "敲声",
+      "values": [
+       "浊响",
+       "沉闷",
+       "清脆"
+      ]
      }
-    ]
+    ],
+    "samples": {
+     "data": "noisy",
+     "label": "好瓜"
+    },
+    "numbered": true,
+    "empty_label": "世上没有好瓜",
+    "positive": "好瓜",
+    "negative": "坏瓜",
+    "shelf_title": "和每个瓜都一致的规律"
    }
   }
  },
@@ -374,6 +317,7 @@
    ],
    "book": [
     "1.55.1",
+    "1.56",
     "1.55.2",
     "1.55.3"
    ],
@@ -420,7 +364,7 @@
       "path": "ask.b9.choice",
       "value": "B"
      },
-     "text": "你更信弯弯绕绕的 B。要是把更平滑看作更简单，[[奥卡姆剃刀]]会选 A。先记住你的选择。"
+     "text": "你更信弯弯绕绕的 B。要是把更平滑看作更简单，[[奥卡姆剃刀]]会选 A。"
     },
     {
      "text": "你更信平滑的 A。要是把更平滑看作更简单，这正合[[奥卡姆剃刀]]。"
@@ -430,174 +374,187 @@
   {
    "id": "b11",
    "show": [
-    "curves",
-    "w1"
+    "rules"
    ],
+   "step": "predict",
    "book": [
-    "1.58.1",
-    "1.58.2"
+    "1.58.1"
    ],
-   "step": "reveal",
-   "say": "可 A 一定更好吗？看看真正的新数据（黄圈）：揭晓世界 1。",
-   "point": "w1.button",
-   "task": {
-    "goal": {
-     "op": "eq",
-     "path": "w1.pressed",
-     "value": true
-    },
-    "ok": [
+   "say": "回到这三条规律。（＊，蜷缩，浊响）和（＊，蜷缩，＊），哪一条更简单？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.4#t2",
+    "choices": [
      {
-      "when": {
-       "op": "lte",
-       "path": "vars.a1",
-       "value": {
-        "path": "vars.b1"
-       }
-      },
-      "text": "世界 1：A 平均偏差 {vars.a1|fixed2}，B 平均偏差 {vars.b1|fixed2}。这里 A 更准。"
+      "id": "fewer",
+      "text": "（＊，蜷缩，＊）：要看的条件少"
      },
      {
-      "text": "世界 1：A 平均偏差 {vars.a1|fixed2}，B 平均偏差 {vars.b1|fixed2}。这里 B 更准。"
+      "id": "narrow",
+      "text": "（＊，蜷缩，浊响）：适用的瓜少"
+     },
+     {
+      "id": "unclear",
+      "text": "说不清"
      }
     ]
    }
   },
   {
    "id": "b12",
-   "show": [
-    "curves",
-    "w2"
+   "step": "reveal",
+   "book": [
+    "1.58.2",
+    "1.58.3",
+    "1.58.4"
    ],
-   "step": "compare",
-   "say": "再揭晓世界 2 的新数据。",
-   "point": "w2.button",
-   "task": {
-    "goal": {
-     "op": "eq",
-     "path": "w2.pressed",
-     "value": true
+   "say": [
+    {
+     "when": {
+      "op": "eq",
+      "path": "ask.b11.choice",
+      "value": "unclear"
+     },
+     "text": "你说说不清，确实如此：按条件多少和按适用范围大小，答案正好相反。"
     },
-    "ok": [
-     {
-      "when": {
-       "op": "all",
-       "of": [
-        {
-         "op": "lte",
-         "path": "vars.b2",
-         "value": {
-          "path": "vars.a2"
-         }
-        },
-        {
-         "op": "eq",
-         "path": "ask.b9.choice",
-         "value": "A"
-        }
-       ]
-      },
-      "text": "世界 2：A 平均偏差 {vars.a2|fixed2}，B 平均偏差 {vars.b2|fixed2}。换了个世界，B 反而更准！你更信的 A 输了。"
+    {
+     "when": {
+      "op": "eq",
+      "path": "ask.b11.choice",
+      "value": "fewer"
      },
-     {
-      "when": {
-       "op": "lte",
-       "path": "vars.b2",
-       "value": {
-        "path": "vars.a2"
-       }
-      },
-      "text": "世界 2：A 平均偏差 {vars.a2|fixed2}，B 平均偏差 {vars.b2|fixed2}。换了个世界，B 更准，你更信的 B 赢了。"
-     },
-     {
-      "text": "世界 2：A 平均偏差 {vars.a2|fixed2}，B 平均偏差 {vars.b2|fixed2}。这里 A 更准。"
-     }
-    ]
-   },
-   "book_done": [
-    "1.61",
-    "1.59.1",
-    "1.59.2"
+     "text": "你按条件多少算；可要是按适用的瓜多少算，（＊，蜷缩，浊响）反而更简单。"
+    },
+    {
+     "text": "你按适用的瓜多少算；可要是按条件多少算，（＊，蜷缩，＊）反而更简单。"
+    }
    ]
   },
   {
    "id": "b13",
    "book": [
-    "1.63.2",
-    "1.63.3",
-    "1.68.3"
+    "1.59.1",
+    "1.59.2"
    ],
-   "step": "name",
-   "card": {
-    "ref": "syl:1.4#t3"
-   },
-   "say": "收进卡册：[[没有免费的午餐]]定理（NFL）。"
+   "say": "选偏好，等于押注这个问题长什么样。"
   },
   {
-   "id": "b13b",
-   "book": [
-    "1.70.1"
+   "id": "b14",
+   "show": [
+    "noisy"
    ],
-   "book_done": [
-    "1.71"
-   ],
-   "step": "apply",
-   "say": "换件和瓜无关的事想想：要从南京鼓楼尽快赶到南京新街口，骑自行车算好办法吗？",
+   "say": "再碰一种麻烦。瓜农又切了 {data.noisy.count|int} 个瓜，可记账时把其中一个的好坏记反了。"
+  },
+  {
+   "id": "b15",
+   "step": "predict",
+   "say": "还能找到一条对这些瓜全都判对的规律吗？",
    "ask": {
-    "ref": "syl:1.4#t3",
+    "mode": "predict",
+    "ref": "syl:1.4#t1",
     "choices": [
      {
-      "id": "fit",
-      "text": "算好办法；要是去北京新街口就很糟，好不好要看是哪个问题",
-      "correct": true,
-      "reply": "对。就像世界 1 里 A 更准、世界 2 里 B 更准。"
+      "id": "yes",
+      "text": "能，多转几下总能找到"
      },
      {
-      "id": "never",
-      "text": "不算：换成去北京新街口就很糟，所以算不上好办法",
-      "reply": "眼前要走的只是鼓楼到南京新街口这一段；去北京那一趟糟不糟，不影响它在这里好用。"
+      "id": "no",
+      "text": "找不到"
      },
      {
-      "id": "avg",
-      "text": "说不清：所有出行办法平均起来都差不多",
-      "reply": "平均起来差不多，是把所有可能的路线都算上；眼前只有这一段路，骑车正合适。"
+      "id": "unsure",
+      "text": "说不准"
      }
     ]
    }
   },
   {
-   "id": "b14",
-   "step": "apply",
-   "say": "所以，这条定理提醒我们什么？",
-   "ask": {
-    "ref": "syl:1.4#t3",
-    "choices": [
-     {
-      "id": "fit",
-      "text": "脱离具体问题，空谈哪个算法更好没有意义",
-      "reply": "对。世界 1 和世界 2 就是两个不同的问题。",
-      "correct": true
+   "id": "b16",
+   "step": "reveal",
+   "book": [
+    "1.129"
+   ],
+   "say": [
+    {
+     "when": {
+      "op": "eq",
+      "path": "ask.b15.choice",
+      "value": "no"
      },
-     {
-      "id": "simple",
-      "text": "简单的算法总是更好",
-      "reply": "世界 2 里弯曲的 B 反而更准：简单不等于在每个问题上都更好。"
+     "text": "和你想的一样：全部 {noisy.space_size|int} 条规律里，全对的有 {noisy.consistent_count|int} 条。"
+    },
+    {
+     "when": {
+      "op": "eq",
+      "path": "ask.b15.choice",
+      "value": "yes"
      },
-     {
-      "id": "same",
-      "text": "在任何具体问题上，所有算法都一样好",
-      "reply": "定理说的是把所有问题平均起来一样；落到具体问题上，算法有好有坏。"
-     }
-    ]
-   },
-   "book_done": [
-    "1.73.1",
-    "1.73.2"
+     "text": "转多少下也没用：全部 {noisy.space_size|int} 条规律里，全对的有 {noisy.consistent_count|int} 条。"
+    },
+    {
+     "text": "查遍全部 {noisy.space_size|int} 条规律，全对的有 {noisy.consistent_count|int} 条。"
+    }
    ]
   },
   {
-   "id": "b15",
-   "say": "第 1 章的核心就学完了。下一关看看这门学科是怎么走到今天的。"
+   "id": "b17",
+   "step": "judge",
+   "say": "可挑瓜机总得交出一条规律。你给它定什么偏好？",
+   "ask": {
+    "mode": "judge",
+    "ref": "syl:1.4#t1",
+    "choices": [
+     {
+      "id": "least",
+      "text": "挑在这些瓜上判错最少的那条",
+      "correct": true,
+      "reply": "你选了判错最少：没有全对的，就退一步挑错得最少的，错的那个瓜可能本来就记错了。"
+     },
+     {
+      "id": "simple",
+      "text": "挑最简单的（＊，＊，＊）",
+      "reply": "你选了最简单的（＊，＊，＊）：它把每个瓜都判成好瓜，两个坏瓜全判错，比判错最少的那条多错一个。"
+     },
+     {
+      "id": "none",
+      "text": "没有全对的，就不交模型",
+      "reply": "你选了不交模型：可学习算法必须产生一个模型，没有全对的，也得按某种偏好挑一条。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b18",
+   "step": "reveal",
+   "point": "noisy.dial:1",
+   "say": "转动旋钮，找出判错最少的那条规律：下面的 ✗ 越少越好。",
+   "hint": "两个坏瓜的根蒂都不是蜷缩，好瓜里有两个是蜷缩。",
+   "task": {
+    "goal": {
+     "op": "all",
+     "of": [
+      {
+       "op": "eq",
+       "path": "noisy.current",
+       "value": [
+        0,
+        1,
+        0
+       ]
+      },
+      {
+       "op": "eq",
+       "path": "noisy.empty",
+       "value": false
+      }
+     ]
+    },
+    "ok": "{noisy.current_label} 只判错了 {data.noisy.rows.4.0|int} 号瓜。它和 {data.noisy.rows.2.0|int} 号瓜只差敲声，好坏却相反，多半是它记反了。"
+   }
+  },
+  {
+   "id": "b19",
+   "say": "下一关：一台挑瓜机在这片瓜田最好，是不是在哪片瓜田都最好？"
   }
  ],
  "bank": [
@@ -626,30 +583,6 @@
    ]
   },
   {
-   "id": "q2",
-   "ref": "syl:1.4#t3",
-   "format": "choice",
-   "stem": "「没有免费的午餐」定理告诉我们什么？",
-   "choices": [
-    {
-     "id": "a",
-     "text": "脱离具体问题，空谈哪个算法更好没有意义",
-     "reply": "定理的前提是所有问题同等重要；落到具体问题上，算法当然有好有坏。",
-     "correct": true
-    },
-    {
-     "id": "b",
-     "text": "所有算法在任何问题上都一样好",
-     "reply": "一样好只是把所有问题平均起来的结论。"
-    },
-    {
-     "id": "c",
-     "text": "简单的算法总是更好",
-     "reply": "世界 2 里更复杂的 B 更准。"
-    }
-   ]
-  },
-  {
    "id": "q3",
    "ref": "syl:1.4#t1",
    "format": "write",
@@ -662,6 +595,30 @@
    "fail": [
     {
      "text": "它在归纳学习中起作用，叫「归纳……」。"
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "ref": "syl:1.4#t1",
+   "format": "choice",
+   "stem": "瓜农记账时把一个瓜的好坏记反了，结果没有一条规律和所有记录都一致。挑瓜机该怎么办？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "按某种偏好挑一条，比如判错最少的那条",
+     "correct": true,
+     "reply": "数据有噪声时没有全对的规律，学习算法仍要产生一个模型，靠偏好来挑，判错最少是一种合理的偏好。"
+    },
+    {
+     "id": "b",
+     "text": "不交模型，等记录没错了再说",
+     "reply": "学习算法必须产生一个模型；记录难免有错，没有全对的也得挑一条。"
+    },
+    {
+     "id": "c",
+     "text": "挑最简单的（＊，＊，＊）",
+     "reply": "它把所有瓜都判成好瓜，坏瓜全判错了。简单也得先和记录大体对得上。"
     }
    ]
   }

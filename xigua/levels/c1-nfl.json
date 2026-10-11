@@ -1,0 +1,966 @@
+{
+ "id": "c1-nfl",
+ "sec": "1.4",
+ "source": [
+  "1.60#让我们再回头看看",
+  "1.73#所以,NFL 定"
+ ],
+ "title": "没有免费的午餐",
+ "aim": "你的挑瓜机在这片瓜田最好，是不是在哪片瓜田都最好？",
+ "key": [
+  "1.60.3",
+  "1.63.2",
+  "1.63.3",
+  "1.68.3",
+  "1.71.1",
+  "1.73.1"
+ ],
+ "scenes": {
+  "curves": {
+   "widget": "plot",
+   "slot": "top",
+   "props": {
+    "x": [
+     0,
+     1
+    ],
+    "y": [
+     0,
+     1
+    ],
+    "caption": "黑点：训练样本",
+    "series": [
+     {
+      "id": "a",
+      "data": "curve_a",
+      "style": "line",
+      "color": "flesh",
+      "label": "A"
+     },
+     {
+      "id": "b",
+      "data": "curve_b",
+      "style": "line",
+      "color": "blue",
+      "label": "B"
+     },
+     {
+      "id": "train",
+      "data": "train_pts",
+      "style": "points",
+      "color": "ink"
+     },
+     {
+      "id": "world1",
+      "data": "world1",
+      "style": "hollow",
+      "color": "amber",
+      "hidden": true
+     },
+     {
+      "id": "world2",
+      "data": "world2",
+      "style": "hollow",
+      "color": "amber",
+      "hidden": true
+     }
+    ]
+   }
+  },
+  "w1": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "揭晓世界 1",
+    "effects": [
+     {
+      "op": "set",
+      "path": "curves.revealed",
+      "value": [
+       "world1"
+      ]
+     },
+     {
+      "op": "compute",
+      "fn": "mean_abs_error",
+      "args": [
+       {
+        "data": "curve_a"
+       },
+       {
+        "data": "world1"
+       }
+      ],
+      "into": "vars.a1"
+     },
+     {
+      "op": "compute",
+      "fn": "mean_abs_error",
+      "args": [
+       {
+        "data": "curve_b"
+       },
+       {
+        "data": "world1"
+       }
+      ],
+      "into": "vars.b1"
+     }
+    ]
+   }
+  },
+  "w2": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "揭晓世界 2",
+    "effects": [
+     {
+      "op": "set",
+      "path": "curves.revealed",
+      "value": [
+       "world2"
+      ]
+     },
+     {
+      "op": "compute",
+      "fn": "mean_abs_error",
+      "args": [
+       {
+        "data": "curve_a"
+       },
+       {
+        "data": "world2"
+       }
+      ],
+      "into": "vars.a2"
+     },
+     {
+      "op": "compute",
+      "fn": "mean_abs_error",
+      "args": [
+       {
+        "data": "curve_b"
+       },
+       {
+        "data": "world2"
+       }
+      ],
+      "into": "vars.b2"
+     }
+    ]
+   }
+  },
+  "field": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "sprites": [
+     {
+      "id": "m1",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "caption": "青绿 蜷缩 浊响"
+      }
+     },
+     {
+      "id": "m2",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "硬挺"
+       },
+       "size": "s",
+       "caption": "乌黑 硬挺 清脆"
+      }
+     },
+     {
+      "id": "m3",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "稍蜷"
+       },
+       "size": "s",
+       "caption": "浅白 稍蜷 沉闷"
+      }
+     },
+     {
+      "id": "ma",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "A 机（＊，蜷缩，浊响）",
+        "好　坏　坏"
+       ]
+      }
+     },
+     {
+      "id": "mb",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "B 机（＊，硬挺，清脆）",
+        "坏　好　坏"
+       ]
+      }
+     }
+    ]
+   }
+  },
+  "worlds": {
+   "widget": "drag_to_bins",
+   "slot": "bottom",
+   "props": {
+    "items": [
+     {
+      "id": "w0",
+      "text": "甲　好 好 好",
+      "answer": "tie",
+      "reject_text": "甲世界里真实是青绿好、乌黑好、浅白好：A 机错两个，B 机错两个，两台错得一样多。"
+     },
+     {
+      "id": "w1",
+      "text": "乙　好 好 坏",
+      "answer": "tie",
+      "reject_text": "乙世界里真实是青绿好、乌黑好、浅白坏：A 机错一个，B 机错一个，两台错得一样多。"
+     },
+     {
+      "id": "w2",
+      "text": "丙　好 坏 好",
+      "answer": "a",
+      "reject_text": "丙世界里真实是青绿好、乌黑坏、浅白好：A 机错一个，B 机错三个，A 机错得少。"
+     },
+     {
+      "id": "w3",
+      "text": "丁　好 坏 坏",
+      "answer": "a",
+      "reject_text": "丁世界里真实是青绿好、乌黑坏、浅白坏：A 机全对，B 机错两个，A 机错得少。"
+     },
+     {
+      "id": "w4",
+      "text": "戊　坏 好 好",
+      "answer": "b",
+      "reject_text": "戊世界里真实是青绿坏、乌黑好、浅白好：A 机错三个，B 机错一个，B 机错得少。"
+     },
+     {
+      "id": "w5",
+      "text": "己　坏 好 坏",
+      "answer": "b",
+      "reject_text": "己世界里真实是青绿坏、乌黑好、浅白坏：A 机错两个，B 机全对，B 机错得少。"
+     },
+     {
+      "id": "w6",
+      "text": "庚　坏 坏 好",
+      "answer": "tie",
+      "reject_text": "庚世界里真实是青绿坏、乌黑坏、浅白好：A 机错两个，B 机错两个，两台错得一样多。"
+     },
+     {
+      "id": "w7",
+      "text": "辛　坏 坏 坏",
+      "answer": "tie",
+      "reject_text": "辛世界里真实是青绿坏、乌黑坏、浅白坏：A 机错一个，B 机错一个，两台错得一样多。"
+     }
+    ],
+    "bins": [
+     {
+      "id": "a",
+      "label": "A 赢"
+     },
+     {
+      "id": "b",
+      "label": "B 赢"
+     },
+     {
+      "id": "tie",
+      "label": "打平"
+     }
+    ]
+   }
+  },
+  "totals": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "sprites": [
+     {
+      "id": "ta",
+      "sprite": {
+       "kind": "gadget",
+       "text": "A 机",
+       "screen": "？"
+      },
+      "reveal": {
+       "screen": {
+        "path": "data.nfl_worlds.rows.8.4"
+       }
+      }
+     },
+     {
+      "id": "tb",
+      "sprite": {
+       "kind": "gadget",
+       "text": "B 机",
+       "screen": "？"
+      },
+      "reveal": {
+       "screen": {
+        "path": "data.nfl_worlds.rows.8.5"
+       }
+      }
+     },
+     {
+      "id": "tr",
+      "sprite": {
+       "kind": "gadget",
+       "text": "胡猜机",
+       "screen": "？"
+      },
+      "reveal": {
+       "screen": {
+        "path": "data.nfl_worlds.rows.8.6"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "sumBtn": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "把所有世界的错误加起来",
+    "effects": [
+     {
+      "op": "reveal",
+      "scene": "totals",
+      "ids": [
+       "ta",
+       "tb",
+       "tr"
+      ]
+     }
+    ]
+   }
+  },
+  "derive": {
+   "widget": "reading_pane",
+   "slot": "full",
+   "props": {
+    "passages": [
+     "1.64",
+     "1.65",
+     "1.66",
+     "1.67",
+     "1.68"
+    ],
+    "fold": [
+     "1.64",
+     "1.66",
+     "1.67",
+     "1.68"
+    ]
+   }
+  },
+  "odds": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "sprites": [
+     {
+      "id": "o1",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "caption": "青绿 蜷缩 浊响：常见的好瓜"
+      }
+     },
+     {
+      "id": "o2",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "硬挺"
+       },
+       "size": "s",
+       "caption": "乌黑 硬挺 清脆：好瓜罕见"
+      }
+     },
+     {
+      "id": "o3",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "稍蜷"
+       },
+       "size": "s",
+       "caption": "浅白 稍蜷 沉闷：好坏各半"
+      }
+     }
+    ]
+   }
+  },
+  "wtotals": {
+   "widget": "sprite_stage",
+   "slot": "middle",
+   "props": {
+    "sprites": [
+     {
+      "id": "va",
+      "sprite": {
+       "kind": "gadget",
+       "text": "A 机",
+       "screen": "？"
+      },
+      "reveal": {
+       "screen": {
+        "path": "data.nfl_worlds.rows.9.4"
+       }
+      }
+     },
+     {
+      "id": "vb",
+      "sprite": {
+       "kind": "gadget",
+       "text": "B 机",
+       "screen": "？"
+      },
+      "reveal": {
+       "screen": {
+        "path": "data.nfl_worlds.rows.9.5"
+       }
+      }
+     },
+     {
+      "id": "vr",
+      "sprite": {
+       "kind": "gadget",
+       "text": "胡猜机",
+       "screen": "？"
+      },
+      "reveal": {
+       "screen": {
+        "path": "data.nfl_worlds.rows.9.6"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "wsumBtn": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "按出现的机会再加一遍",
+    "effects": [
+     {
+      "op": "reveal",
+      "scene": "wtotals",
+      "ids": [
+       "va",
+       "vb",
+       "vr"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "beats": [
+  {
+   "id": "b1",
+   "show": [
+    "curves"
+   ],
+   "book": [
+    "1.60.1",
+    "1.60.2"
+   ],
+   "say": "又是这两条曲线：平滑的 A，崎岖的 B，都穿过了每一个黑点。"
+  },
+  {
+   "id": "b2",
+   "step": "predict",
+   "say": "押一台：训练集之外的新数据来了，哪条曲线会更准？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.4#t3",
+    "choices": [
+     {
+      "id": "A",
+      "text": "平滑的 A"
+     },
+     {
+      "id": "B",
+      "text": "崎岖的 B"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b3",
+   "show": [
+    "curves",
+    "w1"
+   ],
+   "step": "reveal",
+   "say": "揭晓第一个世界的新数据（黄圈）。",
+   "point": "w1.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "w1.pressed",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "all",
+       "of": [
+        {
+         "op": "lte",
+         "path": "vars.a1",
+         "value": {
+          "path": "vars.b1"
+         }
+        },
+        {
+         "op": "eq",
+         "path": "ask.b2.choice",
+         "value": "A"
+        }
+       ]
+      },
+      "text": "世界 1：A 平均偏差 {vars.a1|fixed2}，B 是 {vars.b1|fixed2}。A 更准，你押对了。"
+     },
+     {
+      "when": {
+       "op": "lte",
+       "path": "vars.a1",
+       "value": {
+        "path": "vars.b1"
+       }
+      },
+      "text": "世界 1：A 平均偏差 {vars.a1|fixed2}，B 是 {vars.b1|fixed2}。A 更准，你押的 B 输了这一局。"
+     },
+     {
+      "text": "世界 1：A 平均偏差 {vars.a1|fixed2}，B 是 {vars.b1|fixed2}。这里 B 更准。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.60.3"
+   ]
+  },
+  {
+   "id": "b4",
+   "show": [
+    "curves",
+    "w2"
+   ],
+   "step": "compare",
+   "book": [
+    "1.62.1",
+    "1.62.2"
+   ],
+   "say": "揭晓第二个世界的新数据。",
+   "point": "w2.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "w2.pressed",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "all",
+       "of": [
+        {
+         "op": "lte",
+         "path": "vars.b2",
+         "value": {
+          "path": "vars.a2"
+         }
+        },
+        {
+         "op": "eq",
+         "path": "ask.b2.choice",
+         "value": "A"
+        }
+       ]
+      },
+      "text": "世界 2：A 平均偏差 {vars.a2|fixed2}，B 是 {vars.b2|fixed2}。这回 B 更准，你押的 A 输了。"
+     },
+     {
+      "when": {
+       "op": "lte",
+       "path": "vars.b2",
+       "value": {
+        "path": "vars.a2"
+       }
+      },
+      "text": "世界 2：A 平均偏差 {vars.a2|fixed2}，B 是 {vars.b2|fixed2}。这回 B 更准，你押的 B 扳回一局。"
+     },
+     {
+      "text": "世界 2：A 平均偏差 {vars.a2|fixed2}，B 是 {vars.b2|fixed2}。这里 A 更准。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.61",
+    "1.63.1"
+   ]
+  },
+  {
+   "id": "b5",
+   "book": [
+    "1.63.2"
+   ],
+   "say": "你押的「{ask.b2.choice|label}」赢了一个世界，也输了一个世界。"
+  },
+  {
+   "id": "b6",
+   "show": [
+    "field"
+   ],
+   "say": "两个世界太少。换一个能数全的小世界：三个没见过的瓜，A、B 两台挑瓜机的判断写在下面。"
+  },
+  {
+   "id": "b7",
+   "step": "predict",
+   "say": "再加一台胡猜机，每个瓜抛硬币。把所有可能的世界都算上，谁的错误加起来最少？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.4#t3",
+    "choices": [
+     {
+      "id": "smart",
+      "text": "A 机或 B 机，总比胡猜强"
+     },
+     {
+      "id": "same",
+      "text": "三台一样多"
+     },
+     {
+      "id": "guess",
+      "text": "胡猜机最少"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b8",
+   "show": [
+    "field",
+    "worlds"
+   ],
+   "step": "try",
+   "point": "worlds.next_item",
+   "say": "每张卡是一个世界：三个瓜真实的好坏，顺序是青绿、乌黑、浅白。对照两台机器，看谁错得少。",
+   "hint": "逐个瓜对照：机器说的和卡上一样就没错，不一样就错一个。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "worlds.done",
+     "value": true
+    },
+    "ok": "{worlds.bins.a.count|int} 个世界 A 赢，{worlds.bins.b.count|int} 个 B 赢，{worlds.bins.tie.count|int} 个打平：哪台都不是一直赢。"
+   }
+  },
+  {
+   "id": "b9",
+   "show": [
+    "worlds",
+    "totals",
+    "sumBtn"
+   ],
+   "step": "reveal",
+   "point": "sumBtn.button",
+   "say": "把每台机器在所有世界里的错误加起来。胡猜机算的是平均每个世界错几个。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "sumBtn.pressed",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b7.choice",
+       "value": "same"
+      },
+      "text": "A 机 {data.nfl_worlds.rows.8.4|int}，B 机 {data.nfl_worlds.rows.8.5|int}，胡猜机平均也是 {data.nfl_worlds.rows.8.6|int}：和你猜的一样，三台一样多。"
+     },
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b7.choice",
+       "value": "guess"
+      },
+      "text": "A 机 {data.nfl_worlds.rows.8.4|int}，B 机 {data.nfl_worlds.rows.8.5|int}，胡猜机平均也是 {data.nfl_worlds.rows.8.6|int}：胡猜机不少，也不多，三台一样。"
+     },
+     {
+      "text": "A 机 {data.nfl_worlds.rows.8.4|int}，B 机 {data.nfl_worlds.rows.8.5|int}，胡猜机平均也是 {data.nfl_worlds.rows.8.6|int}：一样多！聪明的机器并不比胡猜强。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.63.3"
+   ]
+  },
+  {
+   "id": "b10",
+   "show": [
+    "derive"
+   ],
+   "book": [
+    "1.63.4",
+    "1.63.5"
+   ],
+   "point": "derive.done",
+   "say": "想看推导，可以展开下面的原文；不展开也不影响往下玩。看好了按「读完了」。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "derive.done",
+     "value": true
+    },
+    "ok": "推导算的就是你刚才数的：所有世界一起算，总错误和机器无关。"
+   }
+  },
+  {
+   "id": "b11",
+   "show": [
+    "worlds",
+    "totals"
+   ],
+   "step": "name",
+   "book": [
+    "1.68.3"
+   ],
+   "card": {
+    "ref": "syl:1.4#t3"
+   },
+   "say": "所有世界一视同仁地加起来，谁也不比谁强。收进卡册：[[没有免费的午餐定理]]。"
+  },
+  {
+   "id": "b12",
+   "book": [
+    "1.70.1"
+   ],
+   "say": "这么说，挑瓜机白造了？先看这条定理的前提。"
+  },
+  {
+   "id": "b13",
+   "show": [
+    "odds"
+   ],
+   "book": [
+    "1.71.1",
+    "1.71.2"
+   ],
+   "say": "回到这三个瓜。真实的瓜田里，它们的好坏可不是抛硬币。"
+  },
+  {
+   "id": "b14",
+   "step": "judge",
+   "book": [
+    "1.72.5"
+   ],
+   "say": "在这样的瓜田里，A 机和 B 机，哪台更值得用？",
+   "ask": {
+    "mode": "judge",
+    "ref": "syl:1.4#t3",
+    "choices": [
+     {
+      "id": "A",
+      "text": "A 机",
+      "correct": true,
+      "reply": "你选了 A 机：它认的正是常见的好瓜，A 赢的那些世界最常出现。"
+     },
+     {
+      "id": "B",
+      "text": "B 机",
+      "reply": "你选了 B 机：可它只认硬挺清脆的好瓜，这种瓜罕见，B 赢的世界很少出现。"
+     },
+     {
+      "id": "same",
+      "text": "一样，反正总错误一样多",
+      "reply": "你选了一样：可总错误一样多，前提是每个世界出现的机会相同；这里并不相同。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b15",
+   "show": [
+    "odds",
+    "wtotals",
+    "wsumBtn"
+   ],
+   "step": "reveal",
+   "point": "wsumBtn.button",
+   "say": "按每个世界出现的机会，再加一遍。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "wsumBtn.pressed",
+     "value": true
+    },
+    "ok": "每 {data.nfl_worlds.rows.9.8|int} 片瓜田：A 机错 {data.nfl_worlds.rows.9.4|int}，B 机错 {data.nfl_worlds.rows.9.5|int}，胡猜机平均错 {data.nfl_worlds.rows.9.6|int}。A 赢的丙、丁两个世界各占 {data.nfl_worlds.rows.2.8|int} 片。"
+   },
+   "book_done": [
+    "1.72.1"
+   ]
+  },
+  {
+   "id": "b16",
+   "step": "apply",
+   "book": [
+    "1.71.3"
+   ],
+   "say": "换件和瓜无关的事：要从南京鼓楼尽快赶到南京新街口，骑自行车算好办法吗？",
+   "ask": {
+    "ref": "syl:1.4#t3",
+    "choices": [
+     {
+      "id": "fit",
+      "text": "算好办法；去北京新街口就很糟，可眼下要解决的不是那个问题",
+      "correct": true,
+      "reply": "对：就像这片瓜田里 A 机更值得用，好不好要看具体的问题。"
+     },
+     {
+      "id": "never",
+      "text": "不算：换成去北京新街口就很糟，所以算不上好办法",
+      "reply": "眼前要走的只是鼓楼到南京新街口这一段；去北京那一趟糟不糟，不影响它在这里好用。"
+     },
+     {
+      "id": "avg",
+      "text": "说不清：所有出行办法平均起来都差不多",
+      "reply": "把所有可能的路线一视同仁地平均，才会差不多；眼前只有这一段路，骑车正合适。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.71.4"
+   ]
+  },
+  {
+   "id": "b17",
+   "step": "apply",
+   "say": "所以，这条定理提醒我们什么？",
+   "ask": {
+    "ref": "syl:1.4#t3",
+    "choices": [
+     {
+      "id": "fit",
+      "text": "脱离具体问题，空谈哪个算法更好没有意义",
+      "correct": true,
+      "reply": "对。一视同仁地算，A 机、B 机和胡猜机一样多；到了具体的瓜田，A 机就更值得用。"
+     },
+     {
+      "id": "simple",
+      "text": "简单的算法总是更好",
+      "reply": "第二个世界里崎岖的 B 反而更准：简单不等于在每个问题上都更好。"
+     },
+     {
+      "id": "same",
+      "text": "在任何具体问题上，所有算法都一样好",
+      "reply": "一样好是把所有世界一视同仁地加起来；在常见好瓜多的瓜田里，A 机就比 B 机少错很多。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.73.1",
+    "1.73.2"
+   ]
+  },
+  {
+   "id": "b18",
+   "say": "下一关：看看这门学科是怎么走到今天的。"
+  }
+ ],
+ "bank": [
+  {
+   "id": "q1",
+   "ref": "syl:1.4#t3",
+   "format": "choice",
+   "stem": "「没有免费的午餐」定理告诉我们什么？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "脱离具体问题，空谈哪个算法更好没有意义",
+     "reply": "定理的前提是所有问题同等重要；落到具体问题上，算法当然有好有坏。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "所有算法在任何问题上都一样好",
+     "reply": "一样好只是把所有问题平均起来的结论。"
+    },
+    {
+     "id": "c",
+     "text": "简单的算法总是更好",
+     "reply": "第二个世界里崎岖的 B 更准：简单不等于处处更好。"
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "ref": "syl:1.4#t3",
+   "format": "choice",
+   "stem": "两台挑瓜机在所有可能的世界里错误加起来一样多。到了一片具体的瓜田，该怎么选？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "看哪台机器的偏好和这片瓜田常见的瓜相配",
+     "correct": true,
+     "reply": "各世界出现的机会不同，偏好和常见的情形相配的那台，在这片瓜田里错得少。"
+    },
+    {
+     "id": "b",
+     "text": "随便选，反正一样",
+     "reply": "一样多只在各世界机会相同时成立；具体的瓜田里，常见的世界占大头。"
+    },
+    {
+     "id": "c",
+     "text": "选更复杂的那台",
+     "reply": "复杂与否不是标准，要看偏好和这片瓜田配不配。"
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "ref": "syl:1.4#t3",
+   "format": "write",
+   "use": "recall",
+   "accept": [
+    "没有免费的午餐定理",
+    "没有免费的午餐",
+    "NFL定理",
+    "NFL"
+   ],
+   "stem": "所有可能的问题同等看待时，聪明的算法和随机胡猜的期望性能相同。这个结论叫什么定理？",
+   "fail": [
+    {
+     "text": "名字是一句俗话：天下没有……"
+    }
+   ]
+  }
+ ]
+}
