@@ -1,0 +1,526 @@
+{
+ "id": "c1-boss",
+ "sec": "章末",
+ "source": [
+  "1.2#1.1 引言",
+  "1.132#1.5 试述机器"
+ ],
+ "title": "瓜田大考",
+ "exam": "final",
+ "aim": "老瓜农只看纹理和脐部挑瓜。你能把第 1 章的本事串起来，答对他的每一道题，再交上习题 1.1 吗？",
+ "key": [
+  "1.125",
+  "1.54.1",
+  "1.30.5",
+  "1.30.1",
+  "1.47.1",
+  "1.124",
+  "1.126",
+  "1.127",
+  "1.128",
+  "1.129",
+  "1.130",
+  "1.131",
+  "1.132"
+ ],
+ "scenes": {
+  "farmer": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "sprites": [
+     {
+      "id": "f",
+      "sprite": {
+       "kind": "farmer",
+       "size": "xl",
+       "caption": "老瓜农：只看纹理和脐部"
+      }
+     },
+     {
+      "id": "vs",
+      "sprite": {
+       "kind": "text",
+       "text": "版本空间：（＊，凹陷）",
+       "tone": "good"
+      },
+      "hidden_until_revealed": true
+     }
+    ]
+   }
+  },
+  "num": {
+   "widget": "stepper",
+   "slot": "middle",
+   "props": {
+    "label": "所有可能的规律一共有多少条？",
+    "value": 9,
+    "min": 0,
+    "max": 99
+   }
+  },
+  "numgo": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "提交答案",
+    "once": false
+   }
+  },
+  "hyp": {
+   "widget": "dial_builder",
+   "slot": "full",
+   "props": {
+    "attrs": [
+     {
+      "name": "纹理",
+      "values": [
+       "清晰",
+       "稍糊",
+       "模糊"
+      ]
+     },
+     {
+      "name": "脐部",
+      "values": [
+       "凹陷",
+       "稍凹",
+       "平坦"
+      ]
+     }
+    ],
+    "samples": {
+     "data": "exam3",
+     "label": "好瓜"
+    },
+    "empty_label": "世上没有好瓜",
+    "positive": "好瓜",
+    "negative": "坏瓜",
+    "sprite": "plain",
+    "shelf_title": "版本空间：找到的一致规律",
+    "named": true
+   }
+  },
+  "vsgo": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "我找全了",
+    "once": false
+   }
+  },
+  "attrs": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "sprites": [
+     {
+      "id": "a1",
+      "sprite": {
+       "kind": "text",
+       "text": "纹理：清晰 / 稍糊 / 模糊"
+      }
+     },
+     {
+      "id": "a2",
+      "sprite": {
+       "kind": "text",
+       "text": "脐部：凹陷 / 稍凹 / 平坦"
+      }
+     }
+    ]
+   }
+  },
+  "ex": {
+   "widget": "dial_builder",
+   "slot": "full",
+   "props": {
+    "attrs": [
+     {
+      "name": "色泽",
+      "values": [
+       "青绿",
+       "乌黑",
+       "浅白"
+      ]
+     },
+     {
+      "name": "根蒂",
+      "values": [
+       "蜷缩",
+       "稍蜷",
+       "硬挺"
+      ]
+     },
+     {
+      "name": "敲声",
+      "values": [
+       "浊响",
+       "沉闷",
+       "清脆"
+      ]
+     }
+    ],
+    "samples": {
+     "data": "t11",
+     "label": "好瓜",
+     "ids": [
+      0,
+      3
+     ]
+    },
+    "empty_label": "世上没有好瓜",
+    "positive": "好瓜",
+    "negative": "坏瓜",
+    "shelf_title": "版本空间：找到的一致规律",
+    "numbered": true
+   }
+  },
+  "exgo": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "我找全了",
+    "once": false
+   }
+  },
+  "full": {
+   "widget": "dial_builder",
+   "slot": "full",
+   "props": {
+    "attrs": [
+     {
+      "name": "色泽",
+      "values": [
+       "青绿",
+       "乌黑",
+       "浅白"
+      ]
+     },
+     {
+      "name": "根蒂",
+      "values": [
+       "蜷缩",
+       "稍蜷",
+       "硬挺"
+      ]
+     },
+     {
+      "name": "敲声",
+      "values": [
+       "浊响",
+       "沉闷",
+       "清脆"
+      ]
+     }
+    ],
+    "samples": {
+     "data": "t11",
+     "label": "好瓜"
+    },
+    "empty_label": "世上没有好瓜"
+   }
+  }
+ },
+ "beats": [
+  {
+   "id": "b1",
+   "show": [
+    "farmer"
+   ],
+   "say": "这是第 1 章的最后一关！出题人是镇上最会挑瓜的老瓜农。这一关，要把第 1 章的本事串起来用。"
+  },
+  {
+   "id": "b2",
+   "who": "farmer",
+   "say": "年轻人，我挑瓜只看两样：纹理和脐部。纹理分清晰、稍糊、模糊；脐部分凹陷、稍凹、平坦。"
+  },
+  {
+   "id": "b3",
+   "step": "solo",
+   "who": "farmer",
+   "ref": "syl:1.3#t2",
+   "show": [
+    "attrs",
+    "num",
+    "numgo"
+   ],
+   "say": "第一题：照这种记法，所有可能的规律一共有多少条？用「−」「＋」调好数，再提交。",
+   "hint": "每个属性三种取值，再加「＊」；最后别忘了「世上没有好瓜」那一条。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "num.value",
+     "value": {
+      "path": "hyp.space_size"
+     }
+    },
+    "submit": "numgo",
+    "fail": [
+     {
+      "when": {
+       "op": "in",
+       "path": "num.value",
+       "value": [
+        9,
+        10
+       ]
+      },
+      "text": "别忘了「＊」这种取值。"
+     },
+     {
+      "when": {
+       "op": "eq",
+       "path": "num.value",
+       "value": 16
+      },
+      "text": "还差「世上没有好瓜」那一条。"
+     },
+     {
+      "text": "再算算：每个属性三种取值，再加「＊」。"
+     }
+    ],
+    "ok": "每个属性四种填法，四乘四，再加一条，一共 {hyp.space_size|int} 条，没错。这就是这个问题的假设空间。"
+   }
+  },
+  {
+   "id": "b4",
+   "who": "farmer",
+   "show": [
+    "hyp",
+    "vsgo"
+   ],
+   "say": "这是我今年切开过的 {data.exam3.count|int} 个瓜。"
+  },
+  {
+   "id": "b5",
+   "step": "solo",
+   "who": "farmer",
+   "ref": "syl:1.3#t3",
+   "say": "第二题：和这些瓜都对得上的规律，全给我找出来。找全了按「我找全了」。",
+   "hint": "两个好瓜的纹理不同，所以纹理只能填「＊」。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "hyp.found_count",
+     "value": {
+      "path": "hyp.consistent_count"
+     }
+    },
+    "submit": "vsgo",
+    "fail": [
+     {
+      "text": "还有漏掉的！已经找到 {hyp.found_count|int} 条。"
+     }
+    ],
+    "ok": "只有一条：{hyp.found_labels}。两个好瓜纹理不同，纹理只能填「＊」；脐部若也填「＊」，平坦的坏瓜会被判成好瓜，好瓜都是凹陷，所以填凹陷。"
+   }
+  },
+  {
+   "id": "b6",
+   "step": "apply",
+   "who": "farmer",
+   "show": [
+    "farmer"
+   ],
+   "say": "第三题：来了个新瓜，纹理模糊、脐部凹陷。好瓜还是坏瓜？",
+   "ask": {
+    "ref": "syl:1.3#t3",
+    "choices": [
+     {
+      "id": "good",
+      "text": "好瓜",
+      "reply": "对！版本空间里唯一的规律只看脐部凹陷。",
+      "correct": true
+     },
+     {
+      "id": "bad",
+      "text": "坏瓜",
+      "reply": "{hyp.found_labels}只要求脐部凹陷，这个瓜正是凹陷的。"
+     }
+    ]
+   },
+   "set": {
+    "farmer.revealed": [
+     "vs"
+    ]
+   }
+  },
+  {
+   "id": "b7",
+   "step": "apply",
+   "who": "farmer",
+   "say": "第四题：这一回，还需要靠归纳偏好在几条规律里挑一条吗？",
+   "ask": {
+    "ref": "syl:1.4#t1",
+    "choices": [
+     {
+      "id": "no",
+      "text": "不需要，版本空间里只剩一条",
+      "reply": "对！只有多条假设都与训练集一致时，偏好才需要出来做选择。",
+      "correct": true
+     },
+     {
+      "id": "occam",
+      "text": "需要，要按奥卡姆剃刀再挑一次",
+      "reply": "奥卡姆剃刀是在多条一致的假设里挑最简单的。这回只剩一条，没得挑。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.54.1"
+   ]
+  },
+  {
+   "id": "b8",
+   "step": "apply",
+   "who": "farmer",
+   "say": "第五题：这条规律用在哪批瓜上，最靠得住？",
+   "ask": {
+    "ref": "syl:1.2#t18",
+    "choices": [
+     {
+      "id": "same",
+      "text": "这片瓜田明天新摘的瓜",
+      "reply": "对！它们和我切过的瓜来自同一个分布。",
+      "correct": true
+     },
+     {
+      "id": "other",
+      "text": "隔壁省另一个品种的瓜",
+      "reply": "品种、瓜田都变了，分布可能不一样，规律不一定成立。"
+     },
+     {
+      "id": "winter",
+      "text": "冬瓜田里的冬瓜",
+      "reply": "那根本不是同一类东西，分布完全不同。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.30.5"
+   ]
+  },
+  {
+   "id": "b9",
+   "step": "why",
+   "who": "farmer",
+   "say": "最后一题：只看了这几个瓜就定下规律，你最该担心什么？",
+   "ask": {
+    "ref": "syl:1.2#t17",
+    "choices": [
+     {
+      "id": "gen",
+      "text": "瓜太少，规律不一定能推广到新瓜上",
+      "reply": "说到点子上了。这就是泛化要操心的事：规律要在没见过的新瓜上也靠得住。",
+      "correct": true
+     },
+     {
+      "id": "simple",
+      "text": "规律太简单了",
+      "reply": "简单不是坏事，还记得奥卡姆剃刀吗？"
+     },
+     {
+      "id": "useless",
+      "text": "纹理这个属性没用",
+      "reply": "纹理填了「＊」，只说明这几个瓜看不出它的作用，不代表它一定没用。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.30.1"
+   ]
+  },
+  {
+   "id": "b10",
+   "show": [
+    "ex",
+    "exgo"
+   ],
+   "say": "老瓜农的题答完了，还有一道习题要交：训练集里只剩 1 号瓜和 4 号瓜。",
+   "book": [
+    "1.125"
+   ]
+  },
+  {
+   "id": "b11",
+   "step": "solo",
+   "ref": "syl:1#ex1",
+   "say": "版本空间里有哪些规律？全部找出来，找全了按「我找全了」。",
+   "hint": "1 号瓜要判好，所以每一格要么填 1 号瓜的值，要么填「＊」。4 号瓜要判坏，所以三格不能全是「＊」。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "ex.found_count",
+     "value": {
+      "path": "ex.consistent_count"
+     }
+    },
+    "submit": "exgo",
+    "fail": [
+     {
+      "text": "还有漏掉的！已经找到 {ex.found_count|int} 条。"
+     }
+    ],
+    "ok": "全对，一共 {ex.found_count|int} 条！每格只能填 1 号瓜的值或「＊」；只有三格全是「＊」的那条，会把 4 号瓜也判成好瓜。"
+   }
+  },
+  {
+   "id": "b12",
+   "step": "why",
+   "say": "训练样本从 {data.t11.count|int} 个减到 {ex.sample_count|int} 个，版本空间从 {full.consistent_count|int} 条变成了 {ex.consistent_count|int} 条。这说明什么？",
+   "ask": {
+    "ref": "syl:1.3#t3",
+    "choices": [
+     {
+      "id": "few",
+      "text": "样本越少，能与之一致的规律越多，越难确定该信哪条",
+      "reply": "对！样本越多，版本空间就被约束得越小。",
+      "correct": true
+     },
+     {
+      "id": "better",
+      "text": "样本越少，学得越准",
+      "reply": "正相反：样本少了，能对上的规律变多，更难确定该信哪一条。"
+     },
+     {
+      "id": "none",
+      "text": "版本空间大小和样本数无关",
+      "reply": "从 {full.consistent_count|int} 条变成 {ex.consistent_count|int} 条，显然有关。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.47.1"
+   ]
+  },
+  {
+   "id": "b13",
+   "who": "farmer",
+   "show": [
+    "farmer"
+   ],
+   "say": "不错不错。假设空间、版本空间、归纳偏好、泛化，第 1 章的本事你都用上了，算是出师了！"
+  },
+  {
+   "id": "b14",
+   "say": "课后想一想，不判分，有空拿纸笔试试。",
+   "book": [
+    "1.124",
+    "1.126",
+    "1.127",
+    "1.128"
+   ]
+  },
+  {
+   "id": "b15",
+   "say": "还有这几道。",
+   "book": [
+    "1.129",
+    "1.130",
+    "1.131",
+    "1.132"
+   ]
+  }
+ ]
+}

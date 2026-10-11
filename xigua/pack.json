@@ -11,7 +11,9 @@
     "c1-label",
     "c1-general",
     "c1-hyp",
-    "c1-bias"
+    "c1-bias",
+    "c1-review",
+    "c1-boss"
   ],
   "original": true
 }
