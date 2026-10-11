@@ -1,0 +1,631 @@
+{
+ "id": "c1-label",
+ "sec": "1.2",
+ "source": [
+  "1.16#从数据中学得模型",
+  "1.25#亦称\"测试示例\""
+ ],
+ "title": "给瓜贴答案",
+ "aim": "表里还缺最要紧的一列：瓜到底好不好。有了答案，能学些什么？",
+ "key": [
+  "1.16.3",
+  "1.19.3",
+  "1.22.1",
+  "1.22.2",
+  "1.22.3",
+  "1.24.1"
+ ],
+ "scenes": {
+  "cutm": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "sprites": [
+     {
+      "id": "m1",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "蜷缩"
+       },
+       "size": "m",
+       "caption": "青绿 蜷缩 浊响"
+      },
+      "tap": {
+       "reveal": true
+      },
+      "reveal": {
+       "cut": 1,
+       "caption": "好瓜"
+      }
+     },
+     {
+      "id": "m2",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "蜷缩"
+       },
+       "size": "m",
+       "caption": "乌黑 蜷缩 浊响"
+      },
+      "tap": {
+       "reveal": true
+      },
+      "reveal": {
+       "cut": 1,
+       "caption": "好瓜"
+      }
+     },
+     {
+      "id": "m3",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "硬挺"
+       },
+       "size": "m",
+       "caption": "青绿 硬挺 清脆"
+      },
+      "tap": {
+       "reveal": true
+      },
+      "reveal": {
+       "cut": 0,
+       "caption": "坏瓜",
+       "tone": "bad"
+      }
+     },
+     {
+      "id": "m4",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "稍蜷"
+       },
+       "size": "m",
+       "caption": "乌黑 稍蜷 沉闷"
+      },
+      "tap": {
+       "reveal": true
+      },
+      "reveal": {
+       "cut": 0,
+       "caption": "坏瓜",
+       "tone": "bad"
+      }
+     }
+    ],
+    "title": "上一关表里的瓜"
+   }
+  },
+  "sortq": {
+   "widget": "drag_to_bins",
+   "slot": "full",
+   "props": {
+    "items": [
+     {
+      "id": "q1",
+      "text": "这个瓜是好瓜，还是坏瓜？",
+      "answer": "cls",
+      "reject_text": "答案是几个类别之一哦",
+      "ref": "syl:1.2#t10"
+     },
+     {
+      "id": "q2",
+      "text": "这个瓜熟到了几成？（0.95、0.37…）",
+      "answer": "reg",
+      "reject_text": "答案是一个连续的数哦",
+      "ref": "syl:1.2#t11"
+     },
+     {
+      "id": "q3",
+      "text": "这是冬瓜、南瓜，还是西瓜？",
+      "answer": "cls",
+      "reject_text": "答案是几个类别之一哦",
+      "ref": "syl:1.2#t10"
+     },
+     {
+      "id": "q4",
+      "text": "这个瓜的含糖率是多少？",
+      "answer": "reg",
+      "reject_text": "答案是一个连续的数哦",
+      "ref": "syl:1.2#t11"
+     }
+    ],
+    "bins": [
+     {
+      "id": "cls",
+      "label": "分类",
+      "look": "basket"
+     },
+     {
+      "id": "reg",
+      "label": "回归",
+      "look": "basket"
+     }
+    ]
+   }
+  },
+  "trainset": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "title": "训练集",
+    "sprites": [
+     {
+      "id": "t1",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "cut": 1
+      }
+     },
+     {
+      "id": "t2",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "cut": 1
+      }
+     },
+     {
+      "id": "t3",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "硬挺"
+       },
+       "size": "s",
+       "cut": 0
+      }
+     },
+     {
+      "id": "t4",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "稍蜷"
+       },
+       "size": "s",
+       "cut": 0
+      }
+     }
+    ]
+   }
+  },
+  "lab": {
+   "widget": "sprite_stage",
+   "slot": "middle",
+   "props": {
+    "sprites": [
+     {
+      "id": "alg",
+      "sprite": {
+       "kind": "gear",
+       "caption": "学习算法"
+      }
+     },
+     {
+      "id": "newm",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "蜷缩"
+       },
+       "size": "m",
+       "caption": "测试样本"
+      },
+      "hidden_until_revealed": true
+     },
+     {
+      "id": "model",
+      "sprite": {
+       "kind": "gadget",
+       "text": "模型",
+       "screen": "？"
+      },
+      "hidden_until_revealed": true,
+      "reveal": {
+       "screen": {
+        "path": "vars.lab_verdict"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "train": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "训练",
+    "effects": [
+     {
+      "op": "animate",
+      "scene": "lab",
+      "name": "spin"
+     },
+     {
+      "op": "reveal",
+      "scene": "lab",
+      "ids": [
+       "model"
+      ]
+     }
+    ]
+   }
+  },
+  "test": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "测试",
+    "effects": [
+     {
+      "op": "reveal",
+      "scene": "lab",
+      "ids": [
+       "newm"
+      ]
+     },
+     {
+      "op": "set",
+      "path": "vars.lab_verdict",
+      "value": "好瓜"
+     }
+    ]
+   }
+  }
+ },
+ "beats": [
+  {
+   "id": "b1",
+   "show": [
+    "cutm"
+   ],
+   "say": "上一关的表还缺最要紧的一列：瓜到底好不好。",
+   "book": [
+    "1.19.1"
+   ]
+  },
+  {
+   "id": "b2",
+   "step": "try",
+   "say": "把这 {data.t11.count|int} 个瓜都切开验一验。",
+   "point": "cutm.next",
+   "task": {
+    "goal": {
+     "op": "gte",
+     "path": "cutm.revealed_count",
+     "value": {
+      "path": "data.t11.count"
+     }
+    },
+    "ok": "两个好瓜，两个坏瓜。不切开，谁也看不出好坏。"
+   },
+   "book_done": [
+    "1.19.2"
+   ]
+  },
+  {
+   "id": "b3",
+   "step": "name",
+   "say": "切开才知道的「好瓜」「坏瓜」，收进卡册：[[标记]]。",
+   "card": {
+    "ref": "syl:1.2#t8"
+   },
+   "book": [
+    "1.19.3"
+   ]
+  },
+  {
+   "id": "b4",
+   "step": "name",
+   "say": "这 {data.t11.count|int} 个瓜现在都带着标记了，收进卡册：[[样例]]。",
+   "card": {
+    "ref": "syl:1.2#t9"
+   },
+   "book": [
+    "1.19.4"
+   ]
+  },
+  {
+   "id": "b5",
+   "show": [
+    "sortq"
+   ],
+   "say": "要预测的东西不同，任务也不同。"
+  },
+  {
+   "id": "b6",
+   "step": "try",
+   "say": "把这些问题分别拖进「分类」或「回归」筐里。",
+   "point": "sortq.next_item",
+   "hint": "答案是几个类别之一，放「分类」；答案是一个连续的数，放「回归」。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "sortq.done",
+     "value": true
+    },
+    "ok": "全对！「好坏」「哪种瓜」的答案是几个类别之一；「熟到几成」「含糖率」的答案是一个连续的数。"
+   }
+  },
+  {
+   "id": "b7",
+   "step": "name",
+   "say": "两个筐的名字，收进卡册：[[分类]]和[[回归]]。",
+   "card": [
+    {
+     "ref": "syl:1.2#t10"
+    },
+    {
+     "ref": "syl:1.2#t11"
+    }
+   ],
+   "book": [
+    "1.22.1"
+   ]
+  },
+  {
+   "id": "b8",
+   "step": "name",
+   "say": "好瓜、坏瓜只有两类；冬瓜、南瓜、西瓜有三类。收进卡册：[[二分类]]与[[多分类]]。",
+   "card": {
+    "ref": "syl:1.2#t12"
+   },
+   "book": [
+    "1.22.2",
+    "1.23.1"
+   ]
+  },
+  {
+   "id": "b9",
+   "show": [
+    "trainset",
+    "lab",
+    "train"
+   ],
+   "say": "最后看看学习的两个阶段。按「训练」。",
+   "point": "train.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "train.pressed",
+     "value": true
+    },
+    "ok": "学习算法从这些样例里，学出了一个模型：根蒂蜷缩的是好瓜。"
+   },
+   "book_done": [
+    "1.16.1"
+   ]
+  },
+  {
+   "id": "b10",
+   "step": "name",
+   "say": "喂给它的这批样例，收进卡册：[[训练集]]。",
+   "card": {
+    "ref": "syl:1.2#t13"
+   },
+   "book": [
+    "1.16.2"
+   ]
+  },
+  {
+   "id": "b11",
+   "step": "apply",
+   "show": [
+    "trainset",
+    "lab",
+    "test"
+   ],
+   "say": "来了个新瓜。按「测试」，让模型预测它。",
+   "point": "test.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "test.pressed",
+     "value": true
+    },
+    "ok": "模型说：好瓜。它没见过这个瓜，用的是从训练集里学到的那条规律。那条规律就一定对吗？"
+   },
+   "book_done": [
+    "1.16.3"
+   ]
+  },
+  {
+   "id": "b12",
+   "step": "name",
+   "say": "刚才这一步，收进卡册：[[测试]]。这个新瓜，就是[[测试样本]]。",
+   "card": {
+    "ref": "syl:1.2#t14"
+   },
+   "book": [
+    "1.24.1"
+   ]
+  },
+  {
+   "id": "b12a",
+   "step": "apply",
+   "say": "换个地方：邮箱要自动挑出垃圾邮件，先拿一大批已经分好的邮件来学。这是什么任务？标记是什么？",
+   "ask": {
+    "ref": "syl:1.2#t10",
+    "choices": [
+     {
+      "id": "a",
+      "text": "分类，标记是「垃圾邮件」或「正常邮件」",
+      "correct": true,
+      "reply": "对：要预测的是两类之一，是二分类。邮件的标题、正文、发件人是输入，「垃圾 / 正常」是输出。"
+     },
+     {
+      "id": "b",
+      "text": "回归，标记是邮件的标题和正文",
+      "reply": "标题和正文是拿来判断的输入；要预测的结果是「垃圾 / 正常」，两类之一，是分类。"
+     },
+     {
+      "id": "c",
+      "text": "分类，标记是邮件的发件人",
+      "reply": "任务说对了，标记不对：发件人是判断时看的输入，标记是要预测的结果，即「垃圾 / 正常」。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.22.3"
+   ]
+  },
+  {
+   "id": "b13",
+   "say": "下一关：没有答案的瓜能学什么？学到的规律又能不能用到新瓜上？"
+  }
+ ],
+ "bank": [
+  {
+   "id": "q1",
+   "ref": "syl:1.2#t11",
+   "format": "choice",
+   "stem": "预测「这个瓜的成熟度是多少」，是什么任务？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "回归",
+     "reply": "成熟度是连续值，预测连续值是回归。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "分类",
+     "reply": "分类的答案是几个类别之一；成熟度是一个连续的数。"
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "ref": "syl:1.2#t9",
+   "format": "choice",
+   "stem": "拥有了标记信息的示例，叫什么？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "样例",
+     "reply": "示例带上标记，就成了样例。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "示例",
+     "reply": "示例还没有标记；带上标记才是样例。"
+    },
+    {
+     "id": "c",
+     "text": "属性",
+     "reply": "属性是样本的一个方面，比如色泽。"
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "ref": "syl:1.2#t12",
+   "format": "choice",
+   "stem": "好瓜 / 坏瓜这种只有两类的二分类任务，两个类通常分别叫什么？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "正类和反类",
+     "reply": "二分类的两个类，一个叫正类，另一个叫反类（亦称负类）。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "示例和样例",
+     "reply": "示例和样例说的是样本有没有标记，不是类别。"
+    },
+    {
+     "id": "c",
+     "text": "分类和回归",
+     "reply": "分类和回归是两种任务；二分类的两个类叫正类和反类。"
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "ref": "syl:1.2#t8",
+   "format": "write",
+   "use": "recall",
+   "stem": "切开才知道的「好瓜」「坏瓜」，这种关于示例结果的信息叫什么？",
+   "fail": [
+    {
+     "text": "它是给样本「标」上的结果，两个字。"
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "ref": "syl:1.2#t10",
+   "format": "choice",
+   "stem": "判断「这是冬瓜、南瓜还是西瓜」，是什么任务？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "分类",
+     "reply": "答案是几个类别之一，是分类；类别超过两个，是多分类。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "回归",
+     "reply": "回归的答案是一个连续的数；这里是三个类别之一。"
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "ref": "syl:1.2#t13",
+   "format": "write",
+   "use": "recall",
+   "accept": [
+    "训练集"
+   ],
+   "stem": "训练时用到的那批样本组成的集合，叫什么？",
+   "fail": [
+    {
+     "text": "用来「训练」的那个集合。"
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "ref": "syl:1.2#t14",
+   "format": "choice",
+   "stem": "模型学好之后，拿新瓜让它判断，这一步叫什么？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "测试",
+     "reply": "用学得的模型做预测，叫测试。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "训练",
+     "reply": "训练是从数据中学出模型；拿新瓜让模型判断是测试。"
+    }
+   ]
+  }
+ ]
+}

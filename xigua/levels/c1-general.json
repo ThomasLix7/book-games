@@ -1,0 +1,848 @@
+{
+ "id": "c1-general",
+ "sec": "1.2",
+ "source": [
+  "1.26#我们还可以对西瓜",
+  "1.32#现实任务中样本空"
+ ],
+ "title": "分堆与泛化",
+ "aim": "没有答案的瓜，能学到什么？学到的规律，碰到没见过的瓜还灵不灵？",
+ "key": [
+  "1.26.1",
+  "1.28.1",
+  "1.30.1",
+  "1.30.2",
+  "1.30.5"
+ ],
+ "scenes": {
+  "pile": {
+   "widget": "drag_to_bins",
+   "slot": "full",
+   "props": {
+    "items": [
+     {
+      "id": "p1",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "蜷缩"
+       },
+       "size": "m"
+      },
+      "attrs": {
+       "色泽": "浅白",
+       "根蒂": "蜷缩"
+      }
+     },
+     {
+      "id": "p2",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "硬挺"
+       },
+       "size": "m"
+      },
+      "attrs": {
+       "色泽": "乌黑",
+       "根蒂": "硬挺"
+      }
+     },
+     {
+      "id": "p3",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "稍蜷"
+       },
+       "size": "m"
+      },
+      "attrs": {
+       "色泽": "浅白",
+       "根蒂": "稍蜷"
+      }
+     },
+     {
+      "id": "p4",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "蜷缩"
+       },
+       "size": "m"
+      },
+      "attrs": {
+       "色泽": "乌黑",
+       "根蒂": "蜷缩"
+      }
+     },
+     {
+      "id": "p5",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "硬挺"
+       },
+       "size": "m"
+      },
+      "attrs": {
+       "色泽": "浅白",
+       "根蒂": "硬挺"
+      }
+     },
+     {
+      "id": "p6",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "稍蜷"
+       },
+       "size": "m"
+      },
+      "attrs": {
+       "色泽": "乌黑",
+       "根蒂": "稍蜷"
+      }
+     },
+     {
+      "id": "p7",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "蜷缩"
+       },
+       "size": "m"
+      },
+      "attrs": {
+       "色泽": "浅白",
+       "根蒂": "蜷缩"
+      }
+     },
+     {
+      "id": "p8",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "蜷缩"
+       },
+       "size": "m"
+      },
+      "attrs": {
+       "色泽": "乌黑",
+       "根蒂": "蜷缩"
+      }
+     }
+    ],
+    "bins": [
+     {
+      "id": "g1",
+      "label": "第 1 堆",
+      "look": "basket",
+      "capacity": 6,
+      "full_text": "这一堆已经够多了。聚类要分出几组来，剩下的放进另一堆吧。"
+     },
+     {
+      "id": "g2",
+      "label": "第 2 堆",
+      "look": "basket",
+      "capacity": 6,
+      "full_text": "这一堆已经够多了。聚类要分出几组来，剩下的放进另一堆吧。"
+     }
+    ],
+    "uniform_by": [
+     "色泽"
+    ]
+   }
+  },
+  "model": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "sprites": [
+     {
+      "id": "m",
+      "sprite": {
+       "kind": "gadget",
+       "text": "模型",
+       "caption": "规律：根蒂蜷缩 → 好瓜",
+       "screen": "？"
+      }
+     }
+    ]
+   }
+  },
+  "east": {
+   "widget": "sprite_stage",
+   "slot": "left",
+   "props": {
+    "title": "东边瓜田",
+    "sprites": [
+     {
+      "id": "e1",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "caption": "蜷缩"
+      },
+      "reveal": {
+       "cut": 1
+      }
+     },
+     {
+      "id": "e2",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "caption": "蜷缩"
+      },
+      "reveal": {
+       "cut": 1
+      }
+     },
+     {
+      "id": "e3",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "稍蜷"
+       },
+       "size": "s",
+       "caption": "稍蜷"
+      },
+      "reveal": {
+       "cut": 0
+      }
+     },
+     {
+      "id": "e4",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "硬挺"
+       },
+       "size": "s",
+       "caption": "硬挺"
+      },
+      "reveal": {
+       "cut": 0
+      }
+     },
+     {
+      "id": "e5",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "乌黑",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "caption": "蜷缩"
+      },
+      "reveal": {
+       "cut": 1
+      }
+     }
+    ],
+    "badges": {
+     "fn": "conj_marks",
+     "args": [
+      [
+       "＊",
+       "蜷缩",
+       "＊"
+      ],
+      {
+       "data": "east"
+      },
+      [
+       "色泽",
+       "根蒂",
+       "敲声"
+      ],
+      "好瓜"
+     ]
+    }
+   }
+  },
+  "west": {
+   "widget": "sprite_stage",
+   "slot": "right",
+   "props": {
+    "title": "西边远处的瓜田",
+    "sprites": [
+     {
+      "id": "w1",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "caption": "蜷缩"
+      },
+      "reveal": {
+       "cut": 0
+      }
+     },
+     {
+      "id": "w2",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "caption": "蜷缩"
+      },
+      "reveal": {
+       "cut": 0
+      }
+     },
+     {
+      "id": "w3",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "稍蜷"
+       },
+       "size": "s",
+       "caption": "稍蜷"
+      },
+      "reveal": {
+       "cut": 1
+      }
+     },
+     {
+      "id": "w4",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "硬挺"
+       },
+       "size": "s",
+       "caption": "硬挺"
+      },
+      "reveal": {
+       "cut": 0
+      }
+     },
+     {
+      "id": "w5",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "蜷缩"
+       },
+       "size": "s",
+       "caption": "蜷缩"
+      },
+      "reveal": {
+       "cut": 0
+      }
+     }
+    ],
+    "badges": {
+     "fn": "conj_marks",
+     "args": [
+      [
+       "＊",
+       "蜷缩",
+       "＊"
+      ],
+      {
+       "data": "west"
+      },
+      [
+       "色泽",
+       "根蒂",
+       "敲声"
+      ],
+      "好瓜"
+     ]
+    }
+   }
+  },
+  "eastBtn": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "考考东边的瓜",
+    "effects": [
+     {
+      "op": "reveal",
+      "scene": "east",
+      "ids": [
+       "e1",
+       "e2",
+       "e3",
+       "e4",
+       "e5"
+      ]
+     },
+     {
+      "op": "compute",
+      "fn": "conj_correct",
+      "args": [
+       [
+        "＊",
+        "蜷缩",
+        "＊"
+       ],
+       {
+        "data": "east"
+       },
+       [
+        "色泽",
+        "根蒂",
+        "敲声"
+       ],
+       "好瓜"
+      ],
+      "into": "vars.east_ok"
+     }
+    ]
+   }
+  },
+  "westBtn": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "考考西边的瓜",
+    "effects": [
+     {
+      "op": "reveal",
+      "scene": "west",
+      "ids": [
+       "w1",
+       "w2",
+       "w3",
+       "w4",
+       "w5"
+      ]
+     },
+     {
+      "op": "compute",
+      "fn": "conj_correct",
+      "args": [
+       [
+        "＊",
+        "蜷缩",
+        "＊"
+       ],
+       {
+        "data": "west"
+       },
+       [
+        "色泽",
+        "根蒂",
+        "敲声"
+       ],
+       "好瓜"
+      ],
+      "into": "vars.west_ok"
+     }
+    ]
+   }
+  }
+ },
+ "beats": [
+  {
+   "id": "b1",
+   "show": [
+    "pile"
+   ],
+   "say": "这一堆瓜还没切，也没人告诉我们好坏。"
+  },
+  {
+   "id": "b2",
+   "step": "try",
+   "say": "把看起来相像的放在一起：拖进两个筐里，怎么分你说了算。",
+   "point": "pile.next_item",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "pile.done",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "eq",
+       "path": "pile.uniform_by.色泽",
+       "value": true
+      },
+      "text": "你按颜色分成了「浅色瓜」和「深色瓜」。没人告诉你答案，你也分出了组。"
+     },
+     {
+      "text": "你有自己的分法，这很好：没人告诉你答案，你也分出了组。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b3",
+   "step": "name",
+   "book": [
+    "1.26.1"
+   ],
+   "say": "收进卡册：[[聚类]]和[[簇]]。",
+   "card": {
+    "ref": "syl:1.2#t15"
+   }
+  },
+  {
+   "id": "b4",
+   "book": [
+    "1.26.3"
+   ],
+   "say": "你刚才分堆，就是这样。"
+  },
+  {
+   "id": "b5",
+   "step": "name",
+   "book": [
+    "1.28.1"
+   ],
+   "say": "收进卡册：[[监督学习]]和[[无监督学习]]。你刚才分堆，属于后一类。",
+   "card": {
+    "ref": "syl:1.2#t16"
+   }
+  },
+  {
+   "id": "b6",
+   "show": [
+    "model",
+    "east",
+    "west",
+    "eastBtn"
+   ],
+   "say": "再说一件最要紧的事。上面这个模型，是用东边瓜田的瓜学出来的：根蒂蜷缩就是好瓜。"
+  },
+  {
+   "id": "b7",
+   "step": "try",
+   "say": "先考考东边瓜田刚摘的新瓜。",
+   "point": "eastBtn.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "eastBtn.pressed",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "eq",
+       "path": "vars.east_ok",
+       "value": {
+        "path": "data.east.count"
+       }
+      },
+      "text": "对了 {vars.east_ok|int} / {data.east.count|int}，全对！这些新瓜模型没见过，学到的规律照样管用。"
+     },
+     {
+      "text": "对了 {vars.east_ok|int} / {data.east.count|int}。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.30.1"
+   ]
+  },
+  {
+   "id": "b8",
+   "step": "predict",
+   "say": "先猜猜：这个模型去考西边远处瓜田的瓜，会考得怎么样？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.2#t17",
+    "choices": [
+     {
+      "id": "same",
+      "text": "和东边差不多"
+     },
+     {
+      "id": "worse",
+      "text": "会差很多"
+     },
+     {
+      "id": "unsure",
+      "text": "说不准"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b9",
+   "show": [
+    "model",
+    "east",
+    "west",
+    "westBtn"
+   ],
+   "step": "reveal",
+   "say": "考考西边远处瓜田的瓜。",
+   "point": "westBtn.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "westBtn.pressed",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b8.choice",
+       "value": "worse"
+      },
+      "text": "只对了 {vars.west_ok|int} / {data.west.count|int}，和你猜的一样。根蒂蜷缩的浅白瓜切开都是坏的，模型却判成好瓜；之前那个浅白新瓜，它也是这样判的。"
+     },
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b8.choice",
+       "value": "same"
+      },
+      "text": "只对了 {vars.west_ok|int} / {data.west.count|int}，和你猜的不一样。根蒂蜷缩的浅白瓜切开都是坏的，模型却判成好瓜；之前那个浅白新瓜，它也是这样判的。"
+     },
+     {
+      "text": "只对了 {vars.west_ok|int} / {data.west.count|int}，你说不准，这正是要担心的。根蒂蜷缩的浅白瓜切开都是坏的，模型却判成好瓜；之前那个浅白新瓜，它也是这样判的。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b10",
+   "show": [
+    "model",
+    "east",
+    "west"
+   ],
+   "step": "name",
+   "book": [
+    "1.30.2"
+   ],
+   "say": "东边那些新瓜，模型一个也没见过，照样判对了 {vars.east_ok|int} / {data.east.count|int}。这种本事收进卡册：[[泛化]]。西边为什么不灵，接着看。",
+   "card": {
+    "ref": "syl:1.2#t17"
+   }
+  },
+  {
+   "id": "b11",
+   "show": [
+    "east",
+    "west"
+   ],
+   "step": "compare",
+   "say": "对比一下两片瓜田：西边的瓜和东边的瓜，哪里不一样？",
+   "ask": {
+    "ref": "syl:1.2#t18",
+    "choices": [
+     {
+      "id": "color",
+      "text": "西边都是浅白色的瓜",
+      "reply": "对！东边的瓜和训练用的瓜来自同一片瓜田，只有青绿、乌黑；西边的瓜和它们「不是一路的」，模型没见过这种瓜。",
+      "correct": true
+     },
+     {
+      "id": "count",
+      "text": "西边的瓜比东边的少",
+      "reply": "两边的瓜一样多；不一样的是瓜本身：西边都是浅白色的。"
+     },
+     {
+      "id": "ripe",
+      "text": "西边的瓜都还没熟",
+      "reply": "西边也有好瓜；关键是它们长得和训练用的瓜不一样，都是浅白色的。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.30.4"
+   ]
+  },
+  {
+   "id": "b12",
+   "step": "name",
+   "book": [
+    "1.30.5"
+   ],
+   "say": "收进卡册：[[独立同分布]]。拿它看看西边。",
+   "card": {
+    "ref": "syl:1.2#t18"
+   }
+  },
+  {
+   "id": "b13",
+   "show": [
+    "model",
+    "west"
+   ],
+   "step": "apply",
+   "say": "模型为什么在西边失灵了？",
+   "ask": {
+    "ref": "syl:1.2#t18",
+    "choices": [
+     {
+      "id": "dist",
+      "text": "西边的瓜来自不同的分布",
+      "reply": "对！训练样本和新样本来自同一个分布，学到的规律才靠得住。",
+      "correct": true
+     },
+     {
+      "id": "untrained",
+      "text": "模型没训练好",
+      "reply": "它在东边的新瓜上全对，训练得不差。"
+     },
+     {
+      "id": "few",
+      "text": "西边的瓜太少",
+      "reply": "两边的瓜一样多。数量不是关键，关键是它们和训练用的瓜「不是一路的」。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b13b",
+   "step": "apply",
+   "say": "换个地方再看。一个垃圾邮件过滤器用去年的邮件训练，在去年的邮件上判得很准；今年垃圾邮件换了新花样，它漏掉的越来越多。最可能的原因是？",
+   "ask": {
+    "ref": "syl:1.2#t18",
+    "choices": [
+     {
+      "id": "dist",
+      "text": "今年的邮件和训练用的邮件不再来自同一个分布",
+      "correct": true,
+      "reply": "对：新花样的垃圾邮件和去年的不是一路的，就像西边的瓜和东边的瓜。"
+     },
+     {
+      "id": "train",
+      "text": "它在去年的邮件上还没判到全对",
+      "reply": "它在去年的邮件上判得很准；问题出在今年的邮件变了样。"
+     },
+     {
+      "id": "many",
+      "text": "今年的邮件太多，它忙不过来",
+      "reply": "邮件多少不是关键，关键是今年的邮件和训练时的不是一路的。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b14",
+   "say": "下一关，我们来看学习这件事的本质。"
+  }
+ ],
+ "bank": [
+  {
+   "id": "q1",
+   "ref": "syl:1.2#t16",
+   "format": "choice",
+   "stem": "训练数据没有标记，要把瓜分成若干组，这属于？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "无监督学习",
+     "reply": "没有标记信息的学习是无监督学习，聚类是代表。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "监督学习",
+     "reply": "监督学习的训练数据有标记。"
+    },
+    {
+     "id": "c",
+     "text": "回归",
+     "reply": "回归要预测连续值，需要有标记。"
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "ref": "syl:1.2#t17",
+   "format": "choice",
+   "stem": "学得的模型适用于新样本的能力叫什么？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "泛化能力",
+     "reply": "机器学习追求的是泛化能力强的模型。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "记忆能力",
+     "reply": "把训练用的瓜记住不难，难的是判对没见过的新瓜。"
+    },
+    {
+     "id": "c",
+     "text": "训练能力",
+     "reply": "训练是学出模型的过程；这里问的是模型用在新样本上的能力。"
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "ref": "syl:1.2#t18",
+   "format": "choice",
+   "stem": "「独立同分布」假设说的是？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "全体样本服从同一个未知分布，而且各自独立采得",
+     "reply": "样本来自同一个分布，才能指望从训练样本学到的规律适用于新样本。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "所有样本都一模一样",
+     "reply": "同分布不是一模一样：瓜各不相同，但都来自同一个分布。"
+    },
+    {
+     "id": "c",
+     "text": "训练集和测试集的样本数相同",
+     "reply": "这和样本个数无关，说的是样本从哪里来。"
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "ref": "syl:1.2#t15",
+   "format": "write",
+   "use": "recall",
+   "accept": [
+    "聚类"
+   ],
+   "stem": "没有标记，只把相像的样本分成若干组，这叫什么？",
+   "fail": [
+    {
+     "text": "把样本「聚」成几「类」，两个字。"
+    }
+   ]
+  }
+ ]
+}

@@ -6,7 +6,12 @@
     1
   ],
   "levels": [
-    "c1-intro"
+    "c1-intro",
+    "c1-data",
+    "c1-label",
+    "c1-general",
+    "c1-hyp",
+    "c1-bias"
   ],
   "original": true
 }

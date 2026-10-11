@@ -1,0 +1,669 @@
+{
+ "id": "c1-bias",
+ "sec": "1.4",
+ "source": [
+  "1.49#1.4 归纳偏好",
+  "1.73#所以,NFL 定"
+ ],
+ "title": "该听哪一条",
+ "aim": "版本空间里不止一条规律时，学习算法该听哪一条？",
+ "key": [
+  "1.51.5",
+  "1.54.1",
+  "1.57.3",
+  "1.59.2",
+  "1.71.1",
+  "1.73.1"
+ ],
+ "scenes": {
+  "rules": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "sprites": [
+     {
+      "id": "r1",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "（＊，蜷缩，＊）",
+        "只看根蒂"
+       ]
+      },
+      "reveal": {
+       "caption": "说：好瓜"
+      }
+     },
+     {
+      "id": "r2",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "（＊，＊，浊响）",
+        "只看敲声"
+       ]
+      },
+      "reveal": {
+       "caption": "说：坏瓜",
+       "tone": "bad"
+      }
+     },
+     {
+      "id": "r3",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "（＊，蜷缩，浊响）",
+        "根蒂和敲声都看"
+       ]
+      },
+      "reveal": {
+       "caption": "说：坏瓜",
+       "tone": "bad"
+      }
+     },
+     {
+      "id": "newm",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "蜷缩"
+       },
+       "size": "l",
+       "caption": "新瓜：青绿　蜷缩　沉闷"
+      }
+     }
+    ]
+   }
+  },
+  "askBtn": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "问问三条规律",
+    "effects": [
+     {
+      "op": "reveal",
+      "scene": "rules",
+      "ids": [
+       "r1",
+       "r2",
+       "r3"
+      ]
+     }
+    ]
+   }
+  },
+  "curves": {
+   "widget": "plot",
+   "slot": "top",
+   "props": {
+    "x": [
+     0,
+     1
+    ],
+    "y": [
+     0,
+     1
+    ],
+    "caption": "黑点：训练样本",
+    "series": [
+     {
+      "id": "a",
+      "data": "curve_a",
+      "style": "line",
+      "color": "flesh",
+      "label": "A"
+     },
+     {
+      "id": "b",
+      "data": "curve_b",
+      "style": "line",
+      "color": "blue",
+      "label": "B"
+     },
+     {
+      "id": "train",
+      "data": "train_pts",
+      "style": "points",
+      "color": "ink"
+     },
+     {
+      "id": "world1",
+      "data": "world1",
+      "style": "hollow",
+      "color": "amber",
+      "hidden": true
+     },
+     {
+      "id": "world2",
+      "data": "world2",
+      "style": "hollow",
+      "color": "amber",
+      "hidden": true
+     }
+    ]
+   }
+  },
+  "w1": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "揭晓世界 1",
+    "effects": [
+     {
+      "op": "set",
+      "path": "curves.revealed",
+      "value": [
+       "world1"
+      ]
+     },
+     {
+      "op": "compute",
+      "fn": "mean_abs_error",
+      "args": [
+       {
+        "data": "curve_a"
+       },
+       {
+        "data": "world1"
+       }
+      ],
+      "into": "vars.a1"
+     },
+     {
+      "op": "compute",
+      "fn": "mean_abs_error",
+      "args": [
+       {
+        "data": "curve_b"
+       },
+       {
+        "data": "world1"
+       }
+      ],
+      "into": "vars.b1"
+     }
+    ]
+   }
+  },
+  "w2": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "揭晓世界 2",
+    "effects": [
+     {
+      "op": "set",
+      "path": "curves.revealed",
+      "value": [
+       "world2"
+      ]
+     },
+     {
+      "op": "compute",
+      "fn": "mean_abs_error",
+      "args": [
+       {
+        "data": "curve_a"
+       },
+       {
+        "data": "world2"
+       }
+      ],
+      "into": "vars.a2"
+     },
+     {
+      "op": "compute",
+      "fn": "mean_abs_error",
+      "args": [
+       {
+        "data": "curve_b"
+       },
+       {
+        "data": "world2"
+       }
+      ],
+      "into": "vars.b2"
+     }
+    ]
+   }
+  }
+ },
+ "beats": [
+  {
+   "id": "b1",
+   "show": [
+    "rules"
+   ],
+   "book": [
+    "1.49",
+    "1.50.1"
+   ],
+   "say": "来了个新瓜：青绿、蜷缩、沉闷。版本空间里的三条规律，会怎么判它？"
+  },
+  {
+   "id": "b2",
+   "step": "predict",
+   "say": "先猜：三条规律会给出同样的判断吗？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.4#t1",
+    "choices": [
+     {
+      "id": "same",
+      "text": "会，说法都一样"
+     },
+     {
+      "id": "differ",
+      "text": "不会，会吵起来"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b3",
+   "show": [
+    "rules",
+    "askBtn"
+   ],
+   "step": "reveal",
+   "say": "问问三条规律，看它们怎么说。",
+   "point": "askBtn.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "askBtn.pressed",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b2.choice",
+       "value": "differ"
+      },
+      "text": "果然吵起来了：一条说好瓜，两条说坏瓜。只看根蒂的那条不管敲声；后两条都要求浊响，新瓜却是沉闷。"
+     },
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b2.choice",
+       "value": "same"
+      },
+      "text": "和你猜的不一样，它们吵起来了：一条说好瓜，两条说坏瓜。只看根蒂的那条不管敲声；后两条都要求浊响，新瓜却是沉闷。"
+     },
+     {
+      "text": "吵起来了：一条说好瓜，两条说坏瓜。只看根蒂的那条不管敲声；后两条都要求浊响，新瓜却是沉闷。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.50.2"
+   ]
+  },
+  {
+   "id": "b4",
+   "book": [
+    "1.50.4",
+    "1.51.1",
+    "1.51.2",
+    "1.51.3"
+   ],
+   "say": "三条规律各说各的，挑瓜机却只能听一条。"
+  },
+  {
+   "id": "b5",
+   "step": "predict",
+   "say": "如果你是学习算法，选哪一条？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.4#t1",
+    "choices": [
+     {
+      "id": "root",
+      "text": "只看根蒂的",
+      "reply": "你更看重「根蒂」，而且偏好适用范围更广、更「一般」的规律。"
+     },
+     {
+      "id": "sound",
+      "text": "只看敲声的",
+      "reply": "你更看重「敲声」这个属性。"
+     },
+     {
+      "id": "both",
+      "text": "两样都看的",
+      "reply": "你偏好条件更多、更「特殊」的规律，适用的瓜尽可能少，比较谨慎。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.51.4"
+   ]
+  },
+  {
+   "id": "b6",
+   "book": [
+    "1.51.5"
+   ],
+   "step": "name",
+   "card": {
+    "ref": "syl:1.4#t1"
+   },
+   "say": "你刚才选「{ask.b5.choice|label}」，就是一种偏好。它叫[[归纳偏好]]。",
+   "link": [
+    {
+     "a": "syl:1.3#t3",
+     "b": "syl:1.4#t1"
+    }
+   ]
+  },
+  {
+   "id": "b7",
+   "book": [
+    "1.54.1",
+    "1.54.2"
+   ],
+   "say": "要是挑瓜机没有偏好，碰上这个新瓜会怎样？"
+  },
+  {
+   "id": "b8",
+   "show": [
+    "curves"
+   ],
+   "book": [
+    "1.55.1",
+    "1.55.2",
+    "1.55.3"
+   ],
+   "say": "像图 1.3 那样：黑点是训练样本，A、B 两条曲线都穿过了每一个黑点。"
+  },
+  {
+   "id": "b9",
+   "step": "predict",
+   "say": "你更相信哪一条曲线？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.4#t2",
+    "choices": [
+     {
+      "id": "A",
+      "text": "平滑的 A"
+     },
+     {
+      "id": "B",
+      "text": "弯弯绕绕的 B"
+     }
+    ]
+   },
+   "book_done": [
+    "1.55.4",
+    "1.55.5"
+   ]
+  },
+  {
+   "id": "b10",
+   "book": [
+    "1.57.1",
+    "1.57.2",
+    "1.57.3"
+   ],
+   "step": "name",
+   "card": {
+    "ref": "syl:1.4#t2"
+   },
+   "say": [
+    {
+     "when": {
+      "op": "eq",
+      "path": "ask.b9.choice",
+      "value": "B"
+     },
+     "text": "你更信弯弯绕绕的 B。要是把更平滑看作更简单，[[奥卡姆剃刀]]会选 A。先记住你的选择。"
+    },
+    {
+     "text": "你更信平滑的 A。要是把更平滑看作更简单，这正合[[奥卡姆剃刀]]。"
+    }
+   ]
+  },
+  {
+   "id": "b11",
+   "show": [
+    "curves",
+    "w1"
+   ],
+   "book": [
+    "1.58.1",
+    "1.58.2"
+   ],
+   "step": "reveal",
+   "say": "可 A 一定更好吗？看看真正的新数据（黄圈）：揭晓世界 1。",
+   "point": "w1.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "w1.pressed",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "lte",
+       "path": "vars.a1",
+       "value": {
+        "path": "vars.b1"
+       }
+      },
+      "text": "世界 1：A 平均偏差 {vars.a1|fixed2}，B 平均偏差 {vars.b1|fixed2}。这里 A 更准。"
+     },
+     {
+      "text": "世界 1：A 平均偏差 {vars.a1|fixed2}，B 平均偏差 {vars.b1|fixed2}。这里 B 更准。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b12",
+   "show": [
+    "curves",
+    "w2"
+   ],
+   "step": "compare",
+   "say": "再揭晓世界 2 的新数据。",
+   "point": "w2.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "w2.pressed",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "all",
+       "of": [
+        {
+         "op": "lte",
+         "path": "vars.b2",
+         "value": {
+          "path": "vars.a2"
+         }
+        },
+        {
+         "op": "eq",
+         "path": "ask.b9.choice",
+         "value": "A"
+        }
+       ]
+      },
+      "text": "世界 2：A 平均偏差 {vars.a2|fixed2}，B 平均偏差 {vars.b2|fixed2}。换了个世界，B 反而更准！你更信的 A 输了。"
+     },
+     {
+      "when": {
+       "op": "lte",
+       "path": "vars.b2",
+       "value": {
+        "path": "vars.a2"
+       }
+      },
+      "text": "世界 2：A 平均偏差 {vars.a2|fixed2}，B 平均偏差 {vars.b2|fixed2}。换了个世界，B 更准，你更信的 B 赢了。"
+     },
+     {
+      "text": "世界 2：A 平均偏差 {vars.a2|fixed2}，B 平均偏差 {vars.b2|fixed2}。这里 A 更准。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.61",
+    "1.59.1",
+    "1.59.2"
+   ]
+  },
+  {
+   "id": "b13",
+   "book": [
+    "1.63.2",
+    "1.63.3",
+    "1.68.3"
+   ],
+   "step": "name",
+   "card": {
+    "ref": "syl:1.4#t3"
+   },
+   "say": "收进卡册：[[没有免费的午餐]]定理（NFL）。"
+  },
+  {
+   "id": "b13b",
+   "book": [
+    "1.70.1"
+   ],
+   "book_done": [
+    "1.71"
+   ],
+   "step": "apply",
+   "say": "换件和瓜无关的事想想：要从南京鼓楼尽快赶到南京新街口，骑自行车算好办法吗？",
+   "ask": {
+    "ref": "syl:1.4#t3",
+    "choices": [
+     {
+      "id": "fit",
+      "text": "算好办法；要是去北京新街口就很糟，好不好要看是哪个问题",
+      "correct": true,
+      "reply": "对。就像世界 1 里 A 更准、世界 2 里 B 更准。"
+     },
+     {
+      "id": "never",
+      "text": "不算：换成去北京新街口就很糟，所以算不上好办法",
+      "reply": "眼前要走的只是鼓楼到南京新街口这一段；去北京那一趟糟不糟，不影响它在这里好用。"
+     },
+     {
+      "id": "avg",
+      "text": "说不清：所有出行办法平均起来都差不多",
+      "reply": "平均起来差不多，是把所有可能的路线都算上；眼前只有这一段路，骑车正合适。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b14",
+   "step": "apply",
+   "say": "所以，这条定理提醒我们什么？",
+   "ask": {
+    "ref": "syl:1.4#t3",
+    "choices": [
+     {
+      "id": "fit",
+      "text": "脱离具体问题，空谈哪个算法更好没有意义",
+      "reply": "对。世界 1 和世界 2 就是两个不同的问题。",
+      "correct": true
+     },
+     {
+      "id": "simple",
+      "text": "简单的算法总是更好",
+      "reply": "世界 2 里弯曲的 B 反而更准：简单不等于在每个问题上都更好。"
+     },
+     {
+      "id": "same",
+      "text": "在任何具体问题上，所有算法都一样好",
+      "reply": "定理说的是把所有问题平均起来一样；落到具体问题上，算法有好有坏。"
+     }
+    ]
+   },
+   "book_done": [
+    "1.73.1",
+    "1.73.2"
+   ]
+  },
+  {
+   "id": "b15",
+   "say": "第 1 章的核心就学完了。下一关看看这门学科是怎么走到今天的。"
+  }
+ ],
+ "bank": [
+  {
+   "id": "q1",
+   "ref": "syl:1.4#t2",
+   "format": "choice",
+   "stem": "奥卡姆剃刀说的是？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "多个假设都与观察一致时，选最简单的",
+     "reply": "若有多个假设与观察一致，选最简单的那个。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "选训练误差最大的",
+     "reply": "奥卡姆剃刀是在都与观察一致的假设里挑，看的是简单。"
+    },
+    {
+     "id": "c",
+     "text": "选最复杂的，因为它最精确",
+     "reply": "正相反，它挑最简单的那个。"
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "ref": "syl:1.4#t3",
+   "format": "choice",
+   "stem": "「没有免费的午餐」定理告诉我们什么？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "脱离具体问题，空谈哪个算法更好没有意义",
+     "reply": "定理的前提是所有问题同等重要；落到具体问题上，算法当然有好有坏。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "所有算法在任何问题上都一样好",
+     "reply": "一样好只是把所有问题平均起来的结论。"
+    },
+    {
+     "id": "c",
+     "text": "简单的算法总是更好",
+     "reply": "世界 2 里更复杂的 B 更准。"
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "ref": "syl:1.4#t1",
+   "format": "write",
+   "use": "recall",
+   "accept": [
+    "归纳偏好",
+    "偏好"
+   ],
+   "stem": "学习算法对某种类型假设的偏向，叫什么？",
+   "fail": [
+    {
+     "text": "它在归纳学习中起作用，叫「归纳……」。"
+    }
+   ]
+  }
+ ]
+}

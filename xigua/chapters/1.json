@@ -45,6 +45,355 @@
     "1.9#本书用\"模型\"泛"
    ],
    "confusable_group": "alg_model"
+  },
+  {
+   "id": "syl:1.2#t1",
+   "type": "term",
+   "kind": "concept",
+   "name": "样本（示例）",
+   "aliases": [
+    "样本",
+    "示例"
+   ],
+   "summary": "每条记录是关于一个事件或对象（这里是一个西瓜）的描述，称为一个“示例”（instance）或“样本”（sample）",
+   "explanation": "表里的每一行描述一个瓜，就是一个样本。",
+   "passage": [
+    "1.13#这组记录的集合称"
+   ],
+   "confusable_group": "sample"
+  },
+  {
+   "id": "syl:1.2#t2",
+   "type": "term",
+   "kind": "concept",
+   "name": "属性（特征）",
+   "aliases": [
+    "属性",
+    "特征"
+   ],
+   "summary": "反映事件或对象在某方面的表现或性质的事项，例如“色泽”“根蒂”“敲声”，称为“属性”（attribute）或“特征”（feature）",
+   "explanation": "表里的每一列是瓜的一个方面，就是一个属性。",
+   "passage": [
+    "1.13#这组记录的集合称"
+   ],
+   "confusable_group": "attr"
+  },
+  {
+   "id": "syl:1.2#t3",
+   "type": "term",
+   "kind": "concept",
+   "name": "属性值",
+   "summary": "属性上的取值，例如“青绿”“乌黑”，称为“属性值”（attribute value）",
+   "explanation": "格子里填的具体取值，就是属性值。",
+   "passage": [
+    "1.13#这组记录的集合称"
+   ],
+   "confusable_group": "attr"
+  },
+  {
+   "id": "syl:1.2#t4",
+   "type": "term",
+   "kind": "concept",
+   "name": "数据集",
+   "summary": "这组记录的集合称为一个“数据集”（data set）",
+   "explanation": "很多条样本记录合在一起，就是数据集。",
+   "passage": [
+    "1.13#这组记录的集合称"
+   ]
+  },
+  {
+   "id": "syl:1.2#t5",
+   "type": "term",
+   "kind": "concept",
+   "name": "属性空间（样本空间）",
+   "aliases": [
+    "属性空间",
+    "样本空间",
+    "输入空间"
+   ],
+   "summary": "属性张成的空间称为“属性空间”（attribute space）、“样本空间”（sample space）或“输入空间”",
+   "explanation": "把每个属性当成一条坐标轴，所有瓜就都成了这个空间里的点。",
+   "passage": [
+    "1.13#这组记录的集合称"
+   ],
+   "core": true
+  },
+  {
+   "id": "syl:1.2#t6",
+   "type": "term",
+   "kind": "concept",
+   "name": "特征向量",
+   "summary": "由于空间中的每个点对应一个坐标向量，因此我们也把一个示例称为一个“特征向量”（feature vector）",
+   "explanation": "空间里的每个点可以写成一串坐标，这串坐标就是特征向量。",
+   "passage": [
+    "1.13#这组记录的集合称"
+   ]
+  },
+  {
+   "id": "syl:1.2#t7",
+   "type": "term",
+   "kind": "concept",
+   "name": "维数",
+   "summary": "例如我们把“色泽”“根蒂”“敲声”作为三个坐标轴，则它们张成一个用于描述西瓜的三维空间",
+   "explanation": "每个瓜用色泽、根蒂、敲声 3 个属性描述，维数就是 3。",
+   "passage": [
+    "1.15#一般地,令 $D",
+    "1.13#这组记录的集合称"
+   ]
+  },
+  {
+   "id": "syl:1.2#t8",
+   "type": "term",
+   "kind": "concept",
+   "name": "标记",
+   "terms": [
+    "标记空间",
+    "输出空间"
+   ],
+   "summary": "关于示例结果的信息，例如“好瓜”，称为“标记”（label）",
+   "explanation": "「好瓜」「坏瓜」是切开之后才知道的结果，这种结果信息就是标记。",
+   "passage": [
+    "1.19#如果希望学得一个"
+   ],
+   "confusable_group": "sample"
+  },
+  {
+   "id": "syl:1.2#t9",
+   "type": "term",
+   "kind": "concept",
+   "name": "样例",
+   "summary": "拥有了标记信息的示例，则称为“样例”（example）",
+   "explanation": "样本加上标记，就成了样例。",
+   "passage": [
+    "1.19#如果希望学得一个"
+   ],
+   "confusable_group": "sample"
+  },
+  {
+   "id": "syl:1.2#t10",
+   "type": "term",
+   "kind": "concept",
+   "name": "分类",
+   "summary": "若我们欲预测的是离散值，例如“好瓜”“坏瓜”，此类学习任务称为“分类”（classification）",
+   "explanation": "答案是几个类别之一，就是分类。",
+   "passage": [
+    "1.22#若我们欲预测的是"
+   ],
+   "core": true,
+   "confusable_group": "task"
+  },
+  {
+   "id": "syl:1.2#t11",
+   "type": "term",
+   "kind": "concept",
+   "name": "回归",
+   "summary": "若欲预测的是连续值，例如西瓜成熟度 0.95、0.37，此类学习任务称为“回归”（regression）",
+   "explanation": "答案是一个连续的数，就是回归。",
+   "passage": [
+    "1.22#若我们欲预测的是"
+   ],
+   "confusable_group": "task"
+  },
+  {
+   "id": "syl:1.2#t12",
+   "type": "term",
+   "kind": "concept",
+   "name": "二分类与多分类",
+   "terms": [
+    "二分类",
+    "多分类",
+    "正类",
+    "反类"
+   ],
+   "summary": "对只涉及两个类别的“二分类”（binary classification）任务，通常称其中一个类为“正类”（positive class），另一个类为“反类”（negative class）；涉及多个类别时，则称为“多分类”（multi-class classification）任务",
+   "explanation": "好瓜 / 坏瓜只有两类，是二分类；冬瓜、南瓜、西瓜有三类，是多分类。",
+   "passage": [
+    "1.22#若我们欲预测的是"
+   ]
+  },
+  {
+   "id": "syl:1.2#t13",
+   "type": "term",
+   "kind": "concept",
+   "name": "训练与训练集",
+   "terms": [
+    "训练",
+    "训练集",
+    "训练样本"
+   ],
+   "summary": "训练过程中使用的数据称为“训练数据”（training data），其中每个样本称为一个“训练样本”（training sample），训练样本组成的集合称为“训练集”（training set）",
+   "explanation": "拿来学出模型的那批样例，就是训练集。",
+   "passage": [
+    "1.16#从数据中学得模型"
+   ]
+  },
+  {
+   "id": "syl:1.2#t14",
+   "type": "term",
+   "kind": "concept",
+   "name": "测试",
+   "terms": [
+    "测试样本"
+   ],
+   "summary": "学得模型后，使用其进行预测的过程称为“测试”（testing），被预测的样本称为“测试样本”（testing sample）",
+   "explanation": "模型学好之后拿新瓜来让它判断，就是测试。",
+   "passage": [
+    "1.24#学得模型后,使用"
+   ]
+  },
+  {
+   "id": "syl:1.2#t15",
+   "type": "term",
+   "kind": "concept",
+   "name": "聚类与簇",
+   "terms": [
+    "聚类",
+    "簇"
+   ],
+   "summary": "将训练集中的西瓜分成若干组，每组称为一个“簇”",
+   "explanation": "没有标记，只按相像程度把瓜分成几组，这就是聚类，每一组叫一个簇。",
+   "passage": [
+    "1.26#我们还可以对西瓜"
+   ],
+   "confusable_group": "task"
+  },
+  {
+   "id": "syl:1.2#t16",
+   "type": "term",
+   "kind": "concept",
+   "name": "监督学习与无监督学习",
+   "terms": [
+    "监督学习",
+    "无监督学习"
+   ],
+   "summary": "根据训练数据是否拥有标记信息，学习任务可大致划分为两大类：“监督学习”（supervised learning）和“无监督学习”（unsupervised learning），分类和回归是前者的代表，而聚类则是后者的代表",
+   "explanation": "有没有标记，决定了是监督学习还是无监督学习。",
+   "passage": [
+    "1.28#根据训练数据是否"
+   ]
+  },
+  {
+   "id": "syl:1.2#t17",
+   "type": "term",
+   "kind": "concept",
+   "name": "泛化",
+   "terms": [
+    "泛化能力"
+   ],
+   "summary": "学得模型适用于新样本的能力，称为“泛化”（generalization）能力",
+   "explanation": "机器学习追求的是在没见过的新瓜上也判得准，也就是泛化能力强。",
+   "passage": [
+    "1.30#需注意的是,机器"
+   ],
+   "core": true,
+   "misconception": {
+    "id": "train_perfect_is_enough",
+    "text": "在训练用的瓜上判得全对，就说明模型学好了"
+   }
+  },
+  {
+   "id": "syl:1.2#t18",
+   "type": "term",
+   "kind": "concept",
+   "name": "独立同分布",
+   "aliases": [
+    "i.i.d."
+   ],
+   "summary": "我们获得的每个样本都是独立地从这个分布上采样获得的，即“独立同分布”",
+   "explanation": "训练样本和新样本来自同一个分布，学到的规律才靠得住。",
+   "passage": [
+    "1.30#需注意的是,机器"
+   ]
+  },
+  {
+   "id": "syl:1.3#t1",
+   "type": "term",
+   "kind": "concept",
+   "name": "归纳与演绎",
+   "terms": [
+    "归纳",
+    "演绎"
+   ],
+   "summary": "归纳（induction）与演绎（deduction）是科学推理的两大基本手段.前者是从特殊到一般的“泛化”（generalization）过程，即从具体的事实归结出一般性规律；后者则是从一般到特殊的“特化”（specialization）过程，即从基础原理推演出具体状况",
+   "explanation": "从具体的瓜总结出一般规律是归纳；从一般规律推出具体结论是演绎。",
+   "passage": [
+    "1.34#归纳(induc"
+   ]
+  },
+  {
+   "id": "syl:1.3#t2",
+   "type": "term",
+   "kind": "concept",
+   "name": "假设空间",
+   "summary": "我们可以把学习过程看作一个在所有假设（hypothesis）组成的空间中进行搜索的过程，搜索目标是找到与训练集“匹配”（fit）的假设，即能够将训练集中的瓜判断正确的假设",
+   "explanation": "每个属性的取值再加上「＊」都可以填进规律里，所有组合再加上「世上没有好瓜」，就是全部可能的规律。",
+   "passage": [
+    "1.42#我们可以把学习过"
+   ],
+   "core": true,
+   "confusable_group": "space"
+  },
+  {
+   "id": "syl:1.3#t3",
+   "type": "term",
+   "kind": "concept",
+   "name": "版本空间",
+   "summary": "可能有多个假设与训练集一致，即存在着一个与训练集一致的“假设集合”，我们称之为“版本空间”（version space）",
+   "explanation": "把假设空间里和训练集对不上的规律划掉，剩下的就是版本空间。",
+   "passage": [
+    "1.47#需注意的是,现实"
+   ],
+   "core": true,
+   "confusable_group": "space"
+  },
+  {
+   "id": "syl:1.4#t1",
+   "type": "term",
+   "kind": "concept",
+   "name": "归纳偏好",
+   "aliases": [
+    "偏好"
+   ],
+   "summary": "机器学习算法在学习过程中对某种类型假设的偏好，称为“归纳偏好”（inductive bias），或简称为“偏好”",
+   "explanation": "版本空间里的规律对新瓜说法不一时，算法只能交出一个模型，靠的就是它的偏好。",
+   "passage": [
+    "1.51#若仅有表 1.1"
+   ],
+   "core": true
+  },
+  {
+   "id": "syl:1.4#t2",
+   "type": "term",
+   "kind": "concept",
+   "name": "奥卡姆剃刀",
+   "summary": "若有多个假设与观察一致，则选最简单的那个",
+   "explanation": "几条规律都和观察一致时，挑最简单的那条。",
+   "passage": [
+    "1.57#归纳偏好可看作学",
+    "1.58#然而,奥卡姆剃刀"
+   ],
+   "core": true
+  },
+  {
+   "id": "syl:1.4#t3",
+   "type": "term",
+   "kind": "concept",
+   "name": "没有免费的午餐定理（NFL）",
+   "aliases": [
+    "没有免费的午餐定理",
+    "NFL"
+   ],
+   "terms": [
+    "没有免费的午餐"
+   ],
+   "summary": "若考虑所有潜在的问题，则所有学习算法都一样好",
+   "explanation": "把所有可能的问题平均起来，哪个算法都不比别的好；所以要看算法的偏好是否适合具体问题。",
+   "passage": [
+    "1.68#式(1.2)显示",
+    "1.71#我们需注意到,N",
+    "1.73#所以,NFL 定"
+   ],
+   "core": true
   }
  ],
  "levels": [
@@ -56,7 +405,72 @@
     "syl:1.1#t2",
     "syl:1.1#t3"
    ]
+  },
+  {
+   "id": "c1-data",
+   "sec": "1.2",
+   "entries": [
+    "syl:1.2#t1",
+    "syl:1.2#t2",
+    "syl:1.2#t3",
+    "syl:1.2#t4",
+    "syl:1.2#t5",
+    "syl:1.2#t6",
+    "syl:1.2#t7"
+   ]
+  },
+  {
+   "id": "c1-label",
+   "sec": "1.2",
+   "entries": [
+    "syl:1.2#t8",
+    "syl:1.2#t9",
+    "syl:1.2#t10",
+    "syl:1.2#t11",
+    "syl:1.2#t12",
+    "syl:1.2#t13",
+    "syl:1.2#t14"
+   ]
+  },
+  {
+   "id": "c1-general",
+   "sec": "1.2",
+   "entries": [
+    "syl:1.2#t15",
+    "syl:1.2#t16",
+    "syl:1.2#t17",
+    "syl:1.2#t18"
+   ]
+  },
+  {
+   "id": "c1-hyp",
+   "sec": "1.3",
+   "entries": [
+    "syl:1.3#t1",
+    "syl:1.3#t2",
+    "syl:1.3#t3"
+   ]
+  },
+  {
+   "id": "c1-bias",
+   "sec": "1.4",
+   "entries": [
+    "syl:1.4#t1",
+    "syl:1.4#t2",
+    "syl:1.4#t3"
+   ]
   }
  ],
- "links": []
+ "links": [
+  {
+   "a": "syl:1.3#t2",
+   "b": "syl:1.1#t2",
+   "basis": "book"
+  },
+  {
+   "a": "syl:1.3#t3",
+   "b": "syl:1.4#t1",
+   "basis": "book"
+  }
+ ]
 }
