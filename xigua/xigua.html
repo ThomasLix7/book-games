@@ -249,16 +249,36 @@ body.ingame{overflow:hidden}
 .bookcard{animation:cardin .25s ease-out}
 @media (prefers-reduced-motion:reduce){.bookcard{animation:none}}
 
-/* Wide screens: the game in the middle of the screen, this beat's original text in the right column (Spec 18 \xA79.8) */
+/* Wide screens: the game in the middle; this beat's original text and new card on the left; what has been collected on the right (Spec 18 \xA79.8) */
 .side{display:none}
 @media (min-width:1180px){
   .game.orig{max-width:1680px}
   .game.orig .play{display:grid;grid-template-columns:minmax(0,1fr) clamp(560px,50vw,720px) minmax(0,1fr);column-gap:16px}
-  .game.orig .main{grid-column:2;min-height:0}
-  .game.orig .side{grid-column:3;display:flex;flex-direction:column;justify-content:center;min-width:0;max-width:480px;padding:0 12px 12px 0;min-height:0}
+  .game.orig .side-l{grid-column:1;grid-row:1;display:flex;flex-direction:column;justify-content:center;gap:10px;justify-self:end;width:100%;max-width:440px;min-width:0;min-height:0;padding:0 0 12px 12px;overflow-y:auto}
+  .game.orig .main{grid-column:2;grid-row:1;min-height:0}
+  .game.orig .side-r{grid-column:3;grid-row:1;display:flex;flex-direction:column;gap:14px;width:100%;max-width:360px;min-width:0;min-height:0;padding:0 12px 12px 0;overflow-y:auto}
   .game.orig .dock .bookcard{display:none}
-  .side .bc-body{max-height:calc(100dvh - 200px)}
+  .side-l .bc-body{max-height:calc(100dvh - 220px)}
 }
+.newcard{background:#f3f7ec;border-color:#b9cf9e;animation:cardin .25s ease-out}
+.newcard-t{color:var(--rind);font-weight:700;letter-spacing:1px}
+.shelf-s{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.shelf-s h4{margin:0 0 8px;font-size:14px;color:var(--ink)}
+.shelf-s h4 small{color:var(--ink-2);font-weight:400}
+.shelf-empty{margin:0;color:var(--ink-2);font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip-term{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:4px 10px;font:inherit;font-size:13px;cursor:pointer}
+.chip-term.fresh{border-color:var(--rind);background:#e6f0da;font-weight:700;animation:cardin .3s ease-out}
+.medals{display:flex;flex-direction:column;gap:6px}
+.medal{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.medal-i{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;border:1.5px dashed var(--line);color:var(--ink-2)}
+.medal.won{color:var(--ink)}
+.medal.won .medal-i{border:0;background:#c9a96a;color:#fff;font-size:14px;font-weight:700;box-shadow:0 0 0 3px rgba(201,169,106,.25)}
+.medal.now .medal-i{border:1.5px solid var(--rind);color:var(--rind)}
+.medal small{margin-left:6px;color:var(--rind)}
+.medal .stars{color:#c98a1b}
+.shelf-review{width:100%}
+@media (prefers-reduced-motion:reduce){.newcard,.chip-term.fresh{animation:none}}
 `;
 
   // src/widgets/common.ts
@@ -2260,6 +2280,7 @@ body.ingame{overflow:hidden}
       __publicField(this, "stageEl", null);
       __publicField(this, "mainEl", null);
       __publicField(this, "sideEl", null);
+      __publicField(this, "shelfEl", null);
       __publicField(this, "stageBeat", "");
       __publicField(this, "stageWidth", 0);
       __publicField(this, "dock", null);
@@ -2507,7 +2528,8 @@ body.ingame{overflow:hidden}
       this.stageEl = h("div", { class: "stage" });
       this.dock = h("div", { class: "dock" });
       this.mainEl = h("div", { class: "main" }, this.stageEl, this.dock);
-      this.sideEl = this.pack.original ? h("aside", { class: "side", "aria-label": "\u8FD9\u4E00\u6B65\u7684\u539F\u6587" }) : null;
+      this.sideEl = this.pack.original ? h("aside", { class: "side side-l", "aria-label": "\u8FD9\u4E00\u6B65\u7684\u539F\u6587\u548C\u63D0\u793A" }) : null;
+      this.shelfEl = this.pack.original ? h("aside", { class: "side side-r", "aria-label": "\u6536\u96C6" }) : null;
       this.hudStars = L.exam ? h("span", { class: "hud-stars", "aria-label": "\u661F\u7EA7" }) : null;
       this.root.replaceChildren(h(
         "div",
@@ -2522,7 +2544,7 @@ body.ingame{overflow:hidden}
           ...this.stats()
         ),
         h("div", { class: "aim-line" }, "\u672C\u5173\uFF1A", L.aim),
-        h("div", { class: "play" }, this.mainEl, this.sideEl)
+        h("div", { class: "play" }, this.sideEl, this.mainEl, this.shelfEl)
       ));
       const start = resume ? Math.min(p.pos[id], L.beats.length - 1) : 0;
       const begin = () => this.go(start);
@@ -2589,7 +2611,7 @@ body.ingame{overflow:hidden}
         if (this.progress.cards[c.ref]) continue;
         this.progress.cards[c.ref] = this.level.id;
         const e = findEntry(this.pack, c.ref);
-        if (e) this.toast(`\u77E5\u8BC6\u5361\uFF1A${e.name}`);
+        if (e && !this.shelfShown()) this.toast(`\u77E5\u8BC6\u5361\uFF1A${e.name}`);
       }
       for (const k of b.link ?? []) {
         const key = `${k.a}|${k.b}`;
@@ -2753,8 +2775,10 @@ body.ingame{overflow:hidden}
       dock.replaceChildren(...card ? [card] : [], dlg);
       if (card) fadeIfMore(card.querySelector(".bc-body"));
       const sideCard = card ? card.cloneNode(true) : null;
-      this.sideEl?.replaceChildren(...sideCard ? [sideCard] : []);
+      const earned = run.done ? this.earnedCards(b) : [];
+      this.sideEl?.replaceChildren(...sideCard ? [sideCard] : [], ...earned);
       if (sideCard) fadeIfMore(sideCard.querySelector(".bc-body"));
+      this.renderShelf(run.done ? this.beatCardRefs(b) : []);
       this.drawPointer();
       if (hadFocus) {
         const target = dlg.querySelector(".write-in, .choice:not(:disabled), [data-continue]");
@@ -3030,6 +3054,55 @@ body.ingame{overflow:hidden}
     bookCard(b, done) {
       const parts = this.bookParts(b, done);
       return parts.length ? this.pageCard(parts) : null;
+    }
+    shelfShown() {
+      return Boolean(this.shelfEl && getComputedStyle(this.shelfEl).display !== "none");
+    }
+    beatCardRefs(b) {
+      return (b.card ? Array.isArray(b.card) ? b.card : [b.card] : []).map((c) => c.ref);
+    }
+    /** The knowledge cards a beat hands out, shown on the left while the beat lasts. */
+    earnedCards(b) {
+      return this.beatCardRefs(b).map((r) => findEntry(this.pack, r)).filter((e) => Boolean(e)).map((e) => {
+        const page = this.unit((e.passage?.[0] ?? "").split("#")[0])?.page;
+        return h(
+          "div",
+          { class: "rcard newcard" },
+          h("small", { class: "newcard-t" }, "\u6536\u8FDB\u5361\u518C"),
+          h("b", {}, e.name),
+          h("blockquote", { class: "rcard-q" }, e.summary, page ? h("cite", {}, `\u539F\u4E66\u7B2C ${page} \u9875`) : null)
+        );
+      });
+    }
+    /** Right column: what the player has collected: key terms, a medal per level cleared, reviews due. */
+    renderShelf(fresh) {
+      const shelf = this.shelfEl;
+      if (!shelf) return;
+      const p = this.progress;
+      const terms = this.order.flatMap((id) => Object.entries(p.cards).filter(([, lv]) => lv === id).map(([r]) => r));
+      const chips = terms.map((r) => h("button", { class: `chip-term ${fresh.includes(r) ? "fresh" : ""}`, type: "button", onclick: () => this.openAlbum() }, findEntry(this.pack, r)?.name ?? r));
+      const medals = this.order.map((id) => {
+        const L = this.pack.levels[id];
+        const st = p.done[id] ? "won" : id === this.level?.id ? "now" : "todo";
+        const stars = p.stars[id] ? "\u2605".repeat(p.stars[id]) + "\u2606".repeat(3 - p.stars[id]) : "";
+        return h(
+          "div",
+          { class: `medal ${st}`, title: L.title },
+          h("span", { class: "medal-i", "aria-hidden": "true" }, st === "won" ? "\u2713" : L.sec),
+          h("span", { class: "medal-t" }, L.title, stars ? h("span", { class: "stars" }, ` ${stars}`) : null, st === "now" ? h("small", {}, "\u8FDB\u884C\u4E2D") : null)
+        );
+      });
+      const due = this.dueItems().length;
+      shelf.replaceChildren(
+        h(
+          "section",
+          { class: "shelf-s" },
+          h("h4", {}, "\u5173\u952E\u8BCD", h("small", {}, ` ${terms.length}`)),
+          chips.length ? h("div", { class: "chips" }, ...chips) : h("p", { class: "shelf-empty" }, "\u5B66\u5230\u7684\u6982\u5FF5\u4F1A\u6536\u5728\u8FD9\u91CC\u3002")
+        ),
+        h("section", { class: "shelf-s" }, h("h4", {}, "\u52CB\u7AE0", h("small", {}, ` ${Object.keys(p.done).filter((id) => this.order.includes(id)).length}/${this.order.length}`)), h("div", { class: "medals" }, ...medals)),
+        ...due ? [h("section", { class: "shelf-s" }, h("button", { class: "btn shelf-review", type: "button", onclick: () => this.openReview() }, `\u5F85\u590D\u4E60 ${due} \u9898`))] : []
+      );
     }
     openAlbum() {
       const p = this.progress;
