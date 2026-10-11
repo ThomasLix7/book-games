@@ -244,25 +244,10 @@ body.ingame{overflow:hidden}
 .stage{display:flex;flex-direction:column}
 .stage>.slot-row:first-child{margin-top:auto}
 .stage>.slot-row:nth-last-child(2){margin-bottom:auto}
-.side{display:none}
-@media (min-width:1420px){
-  /* Symmetric: the game sits in the middle of the screen, the original text in the right column, an equal margin on the left. */
-  .game.orig{max-width:1680px}
-  .game.orig .play{display:grid;grid-template-columns:minmax(0,1fr) 720px minmax(0,1fr);column-gap:16px}
-  .game.orig .main{grid-column:2;min-height:0}
-  .game.orig .side{grid-column:3;display:flex;flex-direction:column;gap:10px;min-width:0;max-width:520px;overflow-y:auto;padding:0 12px 12px 0;scroll-padding-top:8px}
-  .game.orig .dock .bookcard{display:none}
-  .side .bookcard{opacity:.62;transition:opacity .3s}
-  .side .bookcard.now{opacity:1;border-left-color:#b8862b;box-shadow:0 2px 0 #efe5cf,0 0 0 3px rgba(201,169,106,.25)}
-  .side .bc-body{max-height:none;overflow:visible}
-  .side-empty{margin:24px 8px;color:var(--ink-2);font-size:14px;text-align:center}
-}
-@media (max-width:1419px){
-  .main.carded .stage{flex:0 1 auto}
-  .main.carded .dock{flex:1 1 auto;min-height:0}
-  .main.carded .dock .bookcard{flex:1 1 auto;min-height:120px;display:flex;flex-direction:column}
-  .main.carded .dock .bc-body{max-height:none;flex:1;min-height:0}
-}
+
+@keyframes cardin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.bookcard{animation:cardin .25s ease-out}
+@media (prefers-reduced-motion:reduce){.bookcard{animation:none}}
 `;
 
   // src/widgets/common.ts
@@ -2263,7 +2248,6 @@ body.ingame{overflow:hidden}
       __publicField(this, "writeReveal", "");
       __publicField(this, "stageEl", null);
       __publicField(this, "mainEl", null);
-      __publicField(this, "sideEl", null);
       __publicField(this, "stageBeat", "");
       __publicField(this, "stageWidth", 0);
       __publicField(this, "dock", null);
@@ -2511,7 +2495,6 @@ body.ingame{overflow:hidden}
       this.stageEl = h("div", { class: "stage" });
       this.dock = h("div", { class: "dock" });
       this.mainEl = h("div", { class: "main" }, this.stageEl, this.dock);
-      this.sideEl = this.pack.original ? h("aside", { class: "side", "aria-label": "\u672C\u5173\u539F\u6587" }) : null;
       this.hudStars = L.exam ? h("span", { class: "hud-stars", "aria-label": "\u661F\u7EA7" }) : null;
       this.root.replaceChildren(h(
         "div",
@@ -2526,7 +2509,7 @@ body.ingame{overflow:hidden}
           ...this.stats()
         ),
         h("div", { class: "aim-line" }, "\u672C\u5173\uFF1A", L.aim),
-        h("div", { class: "play" }, this.mainEl, this.sideEl)
+        h("div", { class: "play" }, this.mainEl)
       ));
       const start = resume ? Math.min(p.pos[id], L.beats.length - 1) : 0;
       const begin = () => this.go(start);
@@ -2755,9 +2738,7 @@ body.ingame{overflow:hidden}
       });
       const hadFocus = document.activeElement === document.body || dock.contains(document.activeElement);
       dock.replaceChildren(...card ? [card] : [], dlg);
-      this.mainEl?.classList.toggle("carded", Boolean(card));
       if (card) fadeIfMore(card.querySelector(".bc-body"));
-      this.renderSide();
       this.drawPointer();
       if (hadFocus) {
         const target = dlg.querySelector(".write-in, .choice:not(:disabled), [data-continue]");
@@ -3020,35 +3001,19 @@ body.ingame{overflow:hidden}
       }
       return out;
     }
-    pageCard(parts, cls = "") {
+    pageCard(parts) {
       const pages = [...new Set(parts.map((x) => x.page))];
       return h(
         "figure",
-        { class: `bookcard ${cls}`, "aria-label": "\u539F\u4E66\u539F\u6587" },
+        { class: "bookcard", "aria-label": "\u539F\u4E66\u539F\u6587" },
         h("figcaption", { class: "bc-head" }, h("span", { class: "bc-tag" }, "\u539F\u6587"), h("span", { class: "bc-page" }, `\u7B2C ${pages.join("\u3001")} \u9875`)),
         h("div", { class: "bc-body book", lang: "zh-CN", html: parts.map((x) => x.html).join("") })
       );
     }
-    /** This beat's original text as one page card (narrow screens show it above the guide's bubble). */
+    /** This beat's original text as one page card, shown with the beat above the guide's bubble and gone when the beat has none. */
     bookCard(b, done) {
       const parts = this.bookParts(b, done);
       return parts.length ? this.pageCard(parts) : null;
-    }
-    /** Wide screens: every original text the level has shown so far, newest last, so the reader can look back. */
-    renderSide() {
-      const side = this.sideEl, run = this.run, L = this.level;
-      if (!side || !run || !L) return;
-      const seen = /* @__PURE__ */ new Set();
-      const cards = [];
-      for (let i = 0; i <= run.index; i++) {
-        const now = i === run.index;
-        const parts = this.bookParts(L.beats[i], !now || run.done).filter((x) => !seen.has(x.id) && (x.open || now));
-        for (const x of parts) if (x.open) seen.add(x.id);
-        if (parts.length) cards.push(this.pageCard(parts, now ? "now" : ""));
-      }
-      side.replaceChildren(...cards.length ? cards : [h("p", { class: "side-empty" }, "\u8FD9\u4E00\u5173\u8BFB\u5230\u7684\u539F\u6587\u4F1A\u51FA\u73B0\u5728\u8FD9\u91CC\u3002")]);
-      const last = side.querySelector(".bookcard.now");
-      if (last) side.scrollTo({ top: last.offsetTop - 8, behavior: reducedMotion() ? "auto" : "smooth" });
     }
     openAlbum() {
       const p = this.progress;
