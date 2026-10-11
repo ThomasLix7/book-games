@@ -2,7 +2,12 @@
  "n": 1,
  "title": "绪论",
  "mode": "replace",
- "reorders": [],
+ "reorders": [
+  {
+   "entry": "syl:1.1#t1",
+   "reason": "章末「休息一会儿」萨缪尔跳棋程序的故事（1.168）提到第 1 关，作为 E、T、P 的换情境例子"
+  }
+ ],
  "skipped": [],
  "entries": [
   {

@@ -1,0 +1,10 @@
+{
+ "source": "周志华《机器学习》官方勘误表 https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/MLbook2016.htm（2026-10-11 查阅）",
+ "errata": [
+  { "page": 5, "was": "3、2、2", "now": "3、3、3", "fixed_in": "第 8 次印刷（2016 年 5 月）" },
+  { "page": 5, "was": "4\\times3\\times3+1=37", "now": "4\\times4\\times4+1=65", "shown": "4×3×3+1=37", "fixed_in": "第 8 次印刷（2016 年 5 月）" },
+  { "page": 6, "figure": true, "note": "图中两处“清脆”应为“浊响”", "fixed_in": "第 1 次印刷后" },
+  { "page": 10, "was": "Nilson", "now": "Nilsson", "fixed_in": "第 34 次印刷（2020 年 7 月）" },
+  { "page": 15, "was": "居功", "now": "厥功", "fixed_in": "第 3 次印刷（2016 年 3 月）" }
+ ]
+}
