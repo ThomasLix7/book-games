@@ -248,6 +248,17 @@ body.ingame{overflow:hidden}
 @keyframes cardin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .bookcard{animation:cardin .25s ease-out}
 @media (prefers-reduced-motion:reduce){.bookcard{animation:none}}
+
+/* Wide screens: the game in the middle of the screen, this beat's original text in the right column (Spec 18 \xA79.8) */
+.side{display:none}
+@media (min-width:1180px){
+  .game.orig{max-width:1680px}
+  .game.orig .play{display:grid;grid-template-columns:minmax(0,1fr) clamp(560px,50vw,720px) minmax(0,1fr);column-gap:16px}
+  .game.orig .main{grid-column:2;min-height:0}
+  .game.orig .side{grid-column:3;display:flex;flex-direction:column;justify-content:center;min-width:0;max-width:480px;padding:0 12px 12px 0;min-height:0}
+  .game.orig .dock .bookcard{display:none}
+  .side .bc-body{max-height:calc(100dvh - 200px)}
+}
 `;
 
   // src/widgets/common.ts
@@ -2248,6 +2259,7 @@ body.ingame{overflow:hidden}
       __publicField(this, "writeReveal", "");
       __publicField(this, "stageEl", null);
       __publicField(this, "mainEl", null);
+      __publicField(this, "sideEl", null);
       __publicField(this, "stageBeat", "");
       __publicField(this, "stageWidth", 0);
       __publicField(this, "dock", null);
@@ -2495,6 +2507,7 @@ body.ingame{overflow:hidden}
       this.stageEl = h("div", { class: "stage" });
       this.dock = h("div", { class: "dock" });
       this.mainEl = h("div", { class: "main" }, this.stageEl, this.dock);
+      this.sideEl = this.pack.original ? h("aside", { class: "side", "aria-label": "\u8FD9\u4E00\u6B65\u7684\u539F\u6587" }) : null;
       this.hudStars = L.exam ? h("span", { class: "hud-stars", "aria-label": "\u661F\u7EA7" }) : null;
       this.root.replaceChildren(h(
         "div",
@@ -2509,7 +2522,7 @@ body.ingame{overflow:hidden}
           ...this.stats()
         ),
         h("div", { class: "aim-line" }, "\u672C\u5173\uFF1A", L.aim),
-        h("div", { class: "play" }, this.mainEl)
+        h("div", { class: "play" }, this.mainEl, this.sideEl)
       ));
       const start = resume ? Math.min(p.pos[id], L.beats.length - 1) : 0;
       const begin = () => this.go(start);
@@ -2739,6 +2752,9 @@ body.ingame{overflow:hidden}
       const hadFocus = document.activeElement === document.body || dock.contains(document.activeElement);
       dock.replaceChildren(...card ? [card] : [], dlg);
       if (card) fadeIfMore(card.querySelector(".bc-body"));
+      const sideCard = card ? card.cloneNode(true) : null;
+      this.sideEl?.replaceChildren(...sideCard ? [sideCard] : []);
+      if (sideCard) fadeIfMore(sideCard.querySelector(".bc-body"));
       this.drawPointer();
       if (hadFocus) {
         const target = dlg.querySelector(".write-in, .choice:not(:disabled), [data-continue]");
