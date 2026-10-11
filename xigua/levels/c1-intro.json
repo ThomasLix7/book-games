@@ -1,0 +1,735 @@
+{
+ "id": "c1-intro",
+ "sec": "1.1",
+ "source": [
+  "1.3#傍晚小街路面上沁",
+  "1.10#例如[Hand"
+ ],
+ "title": "瓜农的经验",
+ "aim": "计算机没吃过瓜，它怎样才能学会挑瓜？读第 1.1 节找答案。",
+ "scenes": {
+  "p_open": {
+   "widget": "reading_pane",
+   "slot": "full",
+   "props": {
+    "passages": [
+     "1.1",
+     "1.2",
+     "1.3",
+     "1.4"
+    ]
+   }
+  },
+  "melon": {
+   "widget": "sprite_stage",
+   "slot": "top",
+   "props": {
+    "sprites": [
+     {
+      "id": "big",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "青绿",
+        "根蒂": "蜷缩"
+       },
+       "size": "xl"
+      },
+      "tap": {
+       "text": "咚咚～　浊响"
+      },
+      "reveal": {
+       "cut": 1
+      }
+     },
+     {
+      "id": "tag1",
+      "sprite": {
+       "kind": "text",
+       "text": "色泽：青绿"
+      },
+      "hidden_until_revealed": true
+     },
+     {
+      "id": "tag2",
+      "sprite": {
+       "kind": "text",
+       "text": "根蒂：蜷缩"
+      },
+      "hidden_until_revealed": true
+     },
+     {
+      "id": "tag3",
+      "sprite": {
+       "kind": "text",
+       "text": "敲声：浊响"
+      },
+      "hidden_until_revealed": true
+     }
+    ]
+   }
+  },
+  "cut": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "切开看看",
+    "effects": [
+     {
+      "op": "reveal",
+      "scene": "melon",
+      "ids": [
+       "big"
+      ]
+     }
+    ]
+   }
+  },
+  "p_why": {
+   "widget": "reading_pane",
+   "slot": "full",
+   "props": {
+    "passages": [
+     "1.5"
+    ]
+   }
+  },
+  "p_q": {
+   "widget": "reading_pane",
+   "slot": "full",
+   "props": {
+    "passages": [
+     "1.6"
+    ]
+   }
+  },
+  "p_def": {
+   "widget": "reading_pane",
+   "slot": "full",
+   "props": {
+    "passages": [
+     "1.7",
+     "1.8"
+    ]
+   }
+  },
+  "feed": {
+   "widget": "drag_to_bins",
+   "slot": "top",
+   "props": {
+    "items": [
+     {
+      "id": "r1",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "青绿　蜷缩　浊响",
+        "好瓜"
+       ],
+       "tone": "good"
+      }
+     },
+     {
+      "id": "r2",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "乌黑　蜷缩　浊响",
+        "好瓜"
+       ],
+       "tone": "good"
+      }
+     },
+     {
+      "id": "r3",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "青绿　硬挺　清脆",
+        "坏瓜"
+       ],
+       "tone": "bad"
+      }
+     },
+     {
+      "id": "r4",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "乌黑　稍蜷　沉闷",
+        "坏瓜"
+       ],
+       "tone": "bad"
+      }
+     }
+    ],
+    "bins": [
+     {
+      "id": "machine",
+      "label": "学习机",
+      "look": "machine"
+     }
+    ],
+    "consume": true
+   }
+  },
+  "crank": {
+   "widget": "action_button",
+   "slot": "bottom",
+   "props": {
+    "label": "转动把手",
+    "enabled_when": {
+     "op": "gte",
+     "path": "feed.placed_count",
+     "value": {
+      "path": "data.t11.count"
+     }
+    },
+    "effects": [
+     {
+      "op": "animate",
+      "scene": "feed",
+      "name": "spin"
+     }
+    ]
+   }
+  },
+  "recs": {
+   "widget": "sprite_stage",
+   "slot": "middle",
+   "props": {
+    "sprites": [
+     {
+      "id": "sr1",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "青绿　蜷缩　浊响",
+        "好瓜"
+       ],
+       "tone": "good"
+      }
+     },
+     {
+      "id": "sr2",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "乌黑　蜷缩　浊响",
+        "好瓜"
+       ],
+       "tone": "good"
+      }
+     },
+     {
+      "id": "sr3",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "青绿　硬挺　清脆",
+        "坏瓜"
+       ],
+       "tone": "bad"
+      }
+     },
+     {
+      "id": "sr4",
+      "sprite": {
+       "kind": "card",
+       "lines": [
+        "乌黑　稍蜷　沉闷",
+        "坏瓜"
+       ],
+       "tone": "bad"
+      }
+     }
+    ]
+   }
+  },
+  "model": {
+   "widget": "drag_to_bins",
+   "slot": "top",
+   "props": {
+    "items": [
+     {
+      "id": "new",
+      "sprite": {
+       "kind": "melon",
+       "attrs": {
+        "色泽": "浅白",
+        "根蒂": "蜷缩"
+       },
+       "size": "l",
+       "caption": "新瓜：浅白　蜷缩　浊响"
+      }
+     }
+    ],
+    "bins": [
+     {
+      "id": "m",
+      "label": "模型",
+      "look": "gadget",
+      "caption": "规律：根蒂蜷缩 → 好瓜",
+      "reaction": "好瓜！"
+     }
+    ]
+   }
+  },
+  "p_model": {
+   "widget": "reading_pane",
+   "slot": "full",
+   "props": {
+    "passages": [
+     "1.9",
+     "1.10"
+    ]
+   }
+  }
+ },
+ "beats": [
+  {
+   "id": "b1",
+   "step": "read",
+   "show": [
+    "p_open"
+   ],
+   "say": "第 1 章从一个傍晚开始。先读书里这一段，读完点「读完了」。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "p_open.done",
+     "value": true
+    },
+    "ok": "我们先停在那个瓜上。"
+   }
+  },
+  {
+   "id": "b2",
+   "step": "try",
+   "show": [
+    "melon"
+   ],
+   "say": "这就是书里挑的那种瓜。敲一敲它！点一下瓜。",
+   "point": "melon.sprite:big",
+   "task": {
+    "goal": {
+     "op": "contains",
+     "path": "melon.tapped",
+     "value": "big"
+    },
+    "ok": "咚咚——这种声音，书里叫浊响。"
+   }
+  },
+  {
+   "id": "b3",
+   "set": {
+    "melon.revealed": [
+     "tag1",
+     "tag2",
+     "tag3"
+    ]
+   },
+   "say": "再看：色泽青绿，根蒂蜷缩，敲声浊响。"
+  },
+  {
+   "id": "b4",
+   "step": "predict",
+   "say": "没切开，你觉得它是好瓜吗？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.1#t1",
+    "choices": [
+     {
+      "id": "good",
+      "text": "好瓜"
+     },
+     {
+      "id": "bad",
+      "text": "坏瓜"
+     },
+     {
+      "id": "unsure",
+      "text": "说不准，得切开看"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b5",
+   "step": "reveal",
+   "show": [
+    "melon",
+    "cut"
+   ],
+   "say": "切开验证一下！",
+   "point": "cut.button",
+   "task": {
+    "goal": {
+     "op": "contains",
+     "path": "melon.revealed",
+     "value": "big"
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b4.choice",
+       "value": "good"
+      },
+      "text": "是好瓜，你猜对了。"
+     },
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b4.choice",
+       "value": "bad"
+      },
+      "text": "是好瓜。你猜的是坏瓜。"
+     },
+     {
+      "text": "是好瓜。不切开确实说不准，可书里那个人一点也不犹豫。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b6",
+   "step": "predict",
+   "say": "书里那个人没切开就认定是好瓜，还认定明天是好天、这门课成绩差不了。他凭的是什么？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.1#t1",
+    "choices": [
+     {
+      "id": "exp",
+      "text": "以前遇到过很多类似的情况"
+     },
+     {
+      "id": "luck",
+      "text": "运气好，碰巧猜中"
+     },
+     {
+      "id": "told",
+      "text": "有人事先告诉了他"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b7",
+   "step": "read",
+   "show": [
+    "p_why"
+   ],
+   "say": "作者的回答在下一段。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "p_why.done",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b6.choice",
+       "value": "exp"
+      },
+      "text": "你和作者想的一样：靠的是积累起来的经验。"
+     },
+     {
+      "text": "作者的回答是经验：遇见过很多类似的情况，才能对新情况做出有效的判断。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b8",
+   "step": "read",
+   "show": [
+    "p_q"
+   ],
+   "say": "接着，作者问了一个问题。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "p_q.done",
+     "value": true
+    },
+    "ok": "你怎么看？"
+   }
+  },
+  {
+   "id": "b9",
+   "step": "predict",
+   "say": "计算机没有生活经验。要让它也能凭经验判断，它的「经验」可以从哪来？",
+   "ask": {
+    "mode": "predict",
+    "ref": "syl:1.1#t1",
+    "choices": [
+     {
+      "id": "data",
+      "text": "把以前的情况记下来，变成数据"
+     },
+     {
+      "id": "rule",
+      "text": "让程序员把判断规则一条条写死"
+     },
+     {
+      "id": "none",
+      "text": "计算机不可能有经验"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b10",
+   "step": "read",
+   "show": [
+    "p_def"
+   ],
+   "say": "这是书里给机器学习下的定义。旁注里还有一个更形式化的说法。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "p_def.done",
+     "value": true
+    },
+    "ok": [
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b9.choice",
+       "value": "data"
+      },
+      "text": "对，书里的答案就是数据。"
+     },
+     {
+      "when": {
+       "op": "eq",
+       "path": "ask.b9.choice",
+       "value": "rule"
+      },
+      "text": "书里的答案是数据：不用人写死规则，而是让学习算法从数据中产生模型。"
+     },
+     {
+      "text": "书里的答案是：计算机的经验就是数据。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b11",
+   "show": [
+    "feed"
+   ],
+   "say": "来走一遍书里说的过程。这是 {data.t11.count|int} 个瓜的记录，取自书里的表 1.1。"
+  },
+  {
+   "id": "b12",
+   "step": "try",
+   "say": "把这些记录都拖进「学习机」。",
+   "point": "feed.next_item",
+   "task": {
+    "goal": {
+     "op": "gte",
+     "path": "feed.placed_count",
+     "value": {
+      "path": "data.t11.count"
+     }
+    },
+    "ok": "{feed.placed_count|int} 条记录都交给它了。"
+   }
+  },
+  {
+   "id": "b13",
+   "show": [
+    "feed",
+    "recs",
+    "crank"
+   ],
+   "say": "转动把手，让它从数据里学。",
+   "point": "crank.button",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "crank.pressed",
+     "value": true
+    },
+    "ok": "叮！它学出了一条判断规律：根蒂蜷缩的是好瓜。对照下面的记录：好瓜的根蒂都蜷缩，坏瓜的都不蜷缩。"
+   }
+  },
+  {
+   "id": "b14",
+   "step": "name",
+   "say": "按书里的说法，学习机里那套方法是[[学习算法]]，它产生的结果是[[模型]]。",
+   "card": [
+    {
+     "ref": "syl:1.1#t2"
+    },
+    {
+     "ref": "syl:1.1#t3"
+    }
+   ]
+  },
+  {
+   "id": "b15",
+   "step": "apply",
+   "show": [
+    "model"
+   ],
+   "say": "来了个没剖开的新瓜。把它拖到模型上。",
+   "point": "model.next_item",
+   "task": {
+    "goal": {
+     "op": "gte",
+     "path": "model.placed_count",
+     "value": 1
+    },
+    "ok": "模型说：好瓜。它没见过这个瓜，却能给出判断，这正是书里说的模型的用处。"
+   }
+  },
+  {
+   "id": "b16",
+   "step": "judge",
+   "say": "学习算法和模型，哪句说对了它们的关系？",
+   "ask": {
+    "ref": "syl:1.1#t2",
+    "choices": [
+     {
+      "id": "a",
+      "text": "学习算法从数据中产生模型，模型再对新情况做判断",
+      "correct": true,
+      "reply": "对。书里说：把经验数据提供给学习算法，它就能基于这些数据产生模型。"
+     },
+     {
+      "id": "b",
+      "text": "模型从数据中产生学习算法",
+      "reply": "方向反了：学习算法是方法，模型是它从数据中学出来的结果。"
+     },
+     {
+      "id": "c",
+      "text": "两者是同一个东西",
+      "reply": "学习算法是「怎么学」，模型是「学出了什么」，书里分得很清楚。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b17",
+   "step": "read",
+   "show": [
+    "p_model"
+   ],
+   "say": "这一节最后一段，说的是书里「模型」这个词怎么用。",
+   "task": {
+    "goal": {
+     "op": "eq",
+     "path": "p_model.done",
+     "value": true
+    },
+    "ok": "第 1.1 节读完了。"
+   }
+  },
+  {
+   "id": "b18",
+   "step": "compare",
+   "say": "书开头那个人挑瓜，和学习机判断新瓜，哪里一样？",
+   "ask": {
+    "ref": "syl:1.1#t1",
+    "choices": [
+     {
+      "id": "same",
+      "text": "都从以前的瓜里得出规律，再用来判断新瓜",
+      "correct": true,
+      "reply": "对。他的经验来自吃过、看过的瓜，学习机的经验来自数据。"
+     },
+     {
+      "id": "memo",
+      "text": "都把见过的瓜一个个记住，碰到一模一样的才能判断",
+      "reply": "新瓜是浅白色的，记录里没有一模一样的瓜，模型照样判断了。靠的是学出来的规律，不是逐个记住。"
+     },
+     {
+      "id": "cut",
+      "text": "都要先把新瓜切开，看了瓤才能判断",
+      "reply": "不用切开：模型没切就判断了新瓜，书里那个人也是挑了就走。"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b19",
+   "step": "name",
+   "say": "这就是书里说的[[机器学习]]。",
+   "card": {
+    "ref": "syl:1.1#t1"
+   }
+  },
+  {
+   "id": "b20",
+   "say": "下一关，读书里怎么把一个个瓜记成数据。"
+  }
+ ],
+ "bank": [
+  {
+   "id": "q1",
+   "ref": "syl:1.1#t1",
+   "format": "choice",
+   "stem": "机器学习主要研究的是什么？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "从数据中产生模型的算法",
+     "reply": "机器学习研究的主要内容是学习算法：从数据中产生模型的算法。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "怎样把数据存进计算机",
+     "reply": "存数据只是准备工作；机器学习研究的是怎样从数据中产生模型。"
+    },
+    {
+     "id": "c",
+     "text": "怎样让计算机运行得更快",
+     "reply": "那是别的领域关心的事；机器学习研究的是从数据中学出模型的算法。"
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "ref": "syl:1.1#t2",
+   "format": "choice",
+   "stem": "学习算法和模型是什么关系？",
+   "choices": [
+    {
+     "id": "a",
+     "text": "学习算法从数据中产生模型",
+     "reply": "把数据交给学习算法，它就产生模型；模型再用来判断新瓜。",
+     "correct": true
+    },
+    {
+     "id": "b",
+     "text": "模型从数据中产生学习算法",
+     "reply": "方向反了：学习算法是方法，模型是它学出来的结果。"
+    },
+    {
+     "id": "c",
+     "text": "两者是同一个东西",
+     "reply": "学习算法是「怎么学」，模型是「学出了什么」，不是一回事。"
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "ref": "syl:1.1#t3",
+   "format": "write",
+   "use": "recall",
+   "stem": "从数据中学得、用来判断新瓜的结果，叫什么？",
+   "fail": [
+    {
+     "text": "它是学习算法的产物，名字只有两个字。"
+    }
+   ]
+  }
+ ]
+}

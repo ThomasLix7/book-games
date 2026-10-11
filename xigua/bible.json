@@ -1,0 +1,9 @@
+{
+  "title": "西瓜书闯关",
+  "subtitle": "周志华《机器学习》第 1 章，读原书，一边读一边玩。",
+  "npcs": [
+    { "id": "gua", "name": "瓜瓜", "sprite": "gua" },
+    { "id": "farmer", "name": "老瓜农", "sprite": "farmer" }
+  ],
+  "default_npc": "gua"
+}

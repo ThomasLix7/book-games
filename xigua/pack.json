@@ -1,0 +1,20 @@
+{
+  "qpf_version": "0.1",
+  "id": "xigua",
+  "version": "0.1.0",
+  "chapters": [1],
+  "levels": ["c1-intro"],
+  "original": true,
+  "omit": [
+    { "range": "1.64", "reason": "NFL 的推导，书里旁注 1.65 说怕数学的读者可以跳过；游戏里折叠，点开可读" },
+    { "range": "1.66-1.67", "reason": "同上" },
+    { "range": "1.79", "reason": "只有「参见 p.22」，游戏里点不过去" },
+    { "range": "1.84", "reason": "只有「参见第 X 章」，游戏里只有第 1 章" },
+    { "range": "1.86", "reason": "同上" },
+    { "range": "1.88", "reason": "同上" },
+    { "range": "1.90-1.91", "reason": "同上" },
+    { "range": "1.93-1.94", "reason": "同上" },
+    { "range": "1.113-1.123", "reason": "1.7 阅读材料：延伸阅读，不是这一章要学的内容" },
+    { "range": "1.133-1.164", "reason": "参考文献目录" }
+  ]
+}

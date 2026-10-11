@@ -1,0 +1,57 @@
+{
+ "n": 1,
+ "title": "绪论",
+ "mode": "replace",
+ "reorders": [],
+ "skipped": [],
+ "entries": [
+  {
+   "id": "syl:1.1#t1",
+   "type": "term",
+   "kind": "concept",
+   "name": "机器学习",
+   "summary": "研究如何通过计算的手段，利用经验来改善系统自身的性能",
+   "explanation": "计算机没有吃瓜的经验，但数据就是它的经验：从数据里学出模型，就能对新情况做判断。",
+   "passage": [
+    "1.7#机器学习正是这样"
+   ],
+   "core": true
+  },
+  {
+   "id": "syl:1.1#t2",
+   "type": "term",
+   "kind": "concept",
+   "name": "学习算法",
+   "summary": "在计算机上从数据中产生“模型”（model）的算法",
+   "explanation": "把数据交给学习算法，它就产生模型。",
+   "passage": [
+    "1.7#机器学习正是这样"
+   ],
+   "confusable_group": "alg_model"
+  },
+  {
+   "id": "syl:1.1#t3",
+   "type": "term",
+   "kind": "concept",
+   "name": "模型",
+   "summary": "本书用“模型”泛指从数据中学得的结果",
+   "explanation": "模型是学习算法的产物，拿来判断没见过的新瓜。",
+   "passage": [
+    "1.9#本书用\"模型\"泛"
+   ],
+   "confusable_group": "alg_model"
+  }
+ ],
+ "levels": [
+  {
+   "id": "c1-intro",
+   "sec": "1.1",
+   "entries": [
+    "syl:1.1#t1",
+    "syl:1.1#t2",
+    "syl:1.1#t3"
+   ]
+  }
+ ],
+ "links": []
+}
